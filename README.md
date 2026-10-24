@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/eldritch_aeons_icon.png" alt="A dragon breathing fire at a mage protected by an arcane shield" width="320">
+  <img src="assets/eldritch_aeons_icon.svg" alt="A dragon breathing fire at a mage protected by an arcane shield" width="320">
 </p>
 
 # Eldritch Aeons
@@ -26,7 +26,7 @@ Build a Spell has been rebuilt around a learned magical language rather than ran
 - Early syntax is written at the Arcane Workbench; more abstract concepts require Occultism rituals; powerful syntax requires Thaumaturge infusion; forbidden capstones demand eldritch materials and research.
 - Spell balance, rune acquisition, tooltips, textures, and research are all pack-specific.
 
-See [Custom Systems](docs/CUSTOM_SYSTEMS.md) and the browsable [Arcane Syntax source](source/arcane-syntax/).
+See [Custom Systems](docs/CUSTOM_SYSTEMS.md) and the [Arcane Syntax system notes](source/arcane-syntax/).
 
 ### Draconic Artifice
 
@@ -37,7 +37,7 @@ Dragonsteel is no longer ordinary iron exposed to dragon breath.
 - **Thaumium** replaces iron as the Dragonsteel feedstock.
 - A dedicated **Breath-Forged Metallurgy** research path requires advanced Arcane Syntax and Thaumaturge progression.
 
-See the [Draconic Artifice source](source/draconic-artifice/).
+See the [Draconic Artifice system notes](source/draconic-artifice/).
 
 ### Thaumaturgy that respects modern storage
 
@@ -64,14 +64,14 @@ A selected version inventory is maintained in [docs/MOD_LIST.md](docs/MOD_LIST.m
 
 ```text
 assets/                     Project icon and listing artwork
-packages/                   Installable pack-specific overlays
-source/arcane-syntax/       Browsable KubeJS and Build a Spell configuration
-source/draconic-artifice/   Browsable KubeJS integration source
+packages/                   Release-package notes
+source/arcane-syntax/       Arcane Syntax system documentation
+source/draconic-artifice/   Draconic Artifice system documentation
 docs/                       Installation, compatibility, release, and listing notes
 .github/ISSUE_TEMPLATE/      Bug and feature request templates
 ```
 
-The package ZIPs are **overlays**, not complete modpack downloads. They are included for development and auditability. Most players should install Eldritch Aeons through CurseForge.
+Installable overlay builds are distributed with release files and the CurseForge pack. The documentation is kept here for development and auditability. Most players should install Eldritch Aeons through CurseForge.
 
 ## Installation
 

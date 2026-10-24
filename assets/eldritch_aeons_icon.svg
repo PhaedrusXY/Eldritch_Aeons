@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Eldritch Aeons icon</title>
+  <desc id="desc">A dragon breathes fire toward a small mage protected by a glowing arcane bubble.</desc>
+  <defs>
+    <radialGradient id="bg" cx="55%" cy="55%" r="72%">
+      <stop offset="0" stop-color="#18233f"/>
+      <stop offset="0.6" stop-color="#0b0b1c"/>
+      <stop offset="1" stop-color="#05050d"/>
+    </radialGradient>
+    <linearGradient id="flame" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ff4020"/>
+      <stop offset="0.55" stop-color="#ff8a18"/>
+      <stop offset="1" stop-color="#ffe66d"/>
+    </linearGradient>
+    <linearGradient id="bubble" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#65f5ff" stop-opacity="0.9"/>
+      <stop offset="0.55" stop-color="#5bc9ff" stop-opacity="0.7"/>
+      <stop offset="1" stop-color="#b05cff" stop-opacity="0.9"/>
+    </linearGradient>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="soft" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="14"/>
+    </filter>
+  </defs>
+
+  <rect x="7" y="7" width="498" height="498" rx="48" fill="url(#bg)" stroke="#6f458e" stroke-width="12"/>
+  <rect x="18" y="18" width="476" height="476" rx="38" fill="none" stroke="#171127" stroke-width="5"/>
+
+  <g fill="none" stroke="#6c4b9c" opacity="0.25">
+    <circle cx="337" cy="338" r="150" stroke-width="2"/>
+    <circle cx="337" cy="338" r="121" stroke-width="2"/>
+    <path d="M337 180v24M337 472v24M179 338h24M471 338h24M225 226l17 17M432 433l17 17M449 226l-17 17M242 433l-17 17" stroke-width="4"/>
+  </g>
+
+  <ellipse cx="155" cy="158" rx="145" ry="125" fill="#a51e36" opacity="0.25" filter="url(#soft)"/>
+
+  <g>
+    <path d="M18 46L126 31l72 35 75 74-8 66-45 42-73-2-43-37-62 1-24-37z" fill="#331022"/>
+    <path d="M169 131l105 23 42 38-56 25-82-24z" fill="#571627"/>
+    <path d="M185 195l91 17-55 36-75-23z" fill="#220815"/>
+    <path d="M92 58L31 5l106 37 14 47z" fill="#b8aa93"/>
+    <path d="M158 74L143 3l55 57 1 49z" fill="#9c8f7e"/>
+    <path d="M121 107l84-14 35 26-70 29z" fill="#6c1d36"/>
+    <ellipse cx="184" cy="119" rx="24" ry="20" fill="#ff9f1f" opacity="0.55" filter="url(#glow)"/>
+    <ellipse cx="184" cy="119" rx="9" ry="8" fill="#ffe66d"/>
+    <path d="M184 111l3 16 4-16z" fill="#26060b"/>
+    <path d="M204 193l10 23 11-21 10 23 12-18 10 17 10-15" fill="#f4e8cb" stroke="#f4e8cb" stroke-width="4"/>
+  </g>
+
+  <path d="M275 206C314 220 347 246 372 278" fill="none" stroke="#ff4a20" stroke-width="58" stroke-linecap="round" opacity="0.5" filter="url(#glow)"/>
+  <path d="M274 207C313 221 346 248 374 280" fill="none" stroke="url(#flame)" stroke-width="39" stroke-linecap="round"/>
+  <path d="M279 207C314 222 345 248 371 278" fill="none" stroke="#fff08b" stroke-width="12" stroke-linecap="round"/>
+  <path d="M307 226l10-34 20 50 15-35 21 61 22-29 9 64" fill="url(#flame)"/>
+  <g fill="#ff7b1a">
+    <circle cx="304" cy="190" r="4"/><circle cx="337" cy="210" r="3"/><circle cx="370" cy="226" r="5"/>
+    <circle cx="398" cy="249" r="4"/><circle cx="418" cy="266" r="3"/>
+  </g>
+
+  <circle cx="342" cy="342" r="112" fill="#27c5ff" opacity="0.19" filter="url(#soft)"/>
+  <circle cx="342" cy="342" r="105" fill="#175d83" fill-opacity="0.58" stroke="url(#bubble)" stroke-width="13" filter="url(#glow)"/>
+  <circle cx="342" cy="342" r="91" fill="none" stroke="#a95cff" stroke-width="4" opacity="0.85"/>
+  <path d="M275 390a90 90 0 0 0 52 39" fill="none" stroke="#6cf8ff" stroke-width="10" stroke-linecap="round"/>
+  <path d="M295 270a91 91 0 0 1 63-15" fill="none" stroke="#e5ffff" stroke-width="9" stroke-linecap="round"/>
+  <path d="M403 385a91 91 0 0 1-32 35" fill="none" stroke="#bd6cff" stroke-width="6" stroke-linecap="round"/>
+
+  <ellipse cx="342" cy="430" rx="48" ry="10" fill="#050813" opacity="0.7"/>
+  <path d="M342 314l-37 112h74z" fill="#241a40" stroke="#6c4b92" stroke-width="3"/>
+  <path d="M342 322l-10 97h21z" fill="#4d3475"/>
+  <circle cx="342" cy="303" r="23" fill="#18182e" stroke="#8b5bb2" stroke-width="4"/>
+  <circle cx="342" cy="303" r="12" fill="#d6aa7c"/>
+  <path d="M330 342l-32 35" stroke="#1a1930" stroke-width="10" stroke-linecap="round"/>
+  <path d="M363 329l18 94" stroke="#9a6535" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="363" cy="306" r="10" fill="#64eaff" stroke="#e9ffff" stroke-width="3" filter="url(#glow)"/>
+
+  <path d="M250 291A105 105 0 0 1 286 253" fill="none" stroke="#ffe67d" stroke-width="11" stroke-linecap="round"/>
+  <path d="M245 297A112 112 0 0 1 282 248" fill="none" stroke="#ff5b20" stroke-width="6" stroke-linecap="round"/>
+</svg>

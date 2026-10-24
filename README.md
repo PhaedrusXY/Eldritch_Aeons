@@ -99,4 +99,4 @@ Use the repository's [Issues](https://github.com/PhaedrusXY/Eldritch_Aeons/issue
 
 ## Credits and permissions
 
-Eldritch Aeons is curated by **PhaedrusXY**. The included third-party mods, names, assets, and code remain the property of their respective authors and are not relicensed here. Pack-specific scripts, writing, textures, and integration files are covered by [LICENSE-NOTICE.md](LICENSE-NOTICE.md).
+Eldritch Aeons is curated by **PhaedrusXY**. The included third-party mods, names, assets, and code remain the property of their respective authors and are not relicensed here. Repository-original pack scripts, writing, documentation, and integration files are released under the [MIT License](LICENSE); third-party rights and distribution boundaries are explained in [LICENSE-NOTICE.md](LICENSE-NOTICE.md).

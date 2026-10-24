@@ -1,0 +1,39 @@
+# Minecraft runtime data
+mods/
+logs/
+crash-reports/
+saves/
+backups/
+screenshots/
+resourcepacks/
+shaderpacks/
+journeymap/
+XaeroWaypoints/
+XaeroWorldMap/
+
+# Server identity and private state
+server.properties
+ops.json
+whitelist.json
+banned-*.json
+usercache.json
+world/
+*.pem
+*.key
+
+# Development/generated output
+kubejs/probe/
+kubejs/exported/
+run/
+build/
+.gradle/
+.idea/
+.vscode/
+*.log
+*.tmp
+*.bak
+.DS_Store
+Thumbs.db
+
+# Never commit third-party binaries from a local instance
+*.jar

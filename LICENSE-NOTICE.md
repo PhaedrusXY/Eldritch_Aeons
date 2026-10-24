@@ -1,7 +1,7 @@
 # License and Redistribution Notice
 
-This repository does not grant a blanket license to third-party mods, trademarks, names, or assets. Those materials remain governed by their respective authors and licenses.
+The repository's original Eldritch Aeons pack-specific scripts, writing, documentation, and integration files are licensed under the MIT License in [`LICENSE`](LICENSE), unless a file states otherwise.
 
-Unless a file explicitly states otherwise, the original Eldritch Aeons pack-specific scripts, writing, textures, documentation, and integration assets are copyright PhaedrusXY. No general permission to redistribute modified copies is granted by the existence of this public repository.
+That license does not apply to third-party Minecraft mods, trademarks, names, code, or assets. Those materials remain governed by their respective authors and licenses.
 
-The complete modpack should be distributed through its approved CurseForge project and manifest rather than by repackaging third-party mod JARs from a local installation.
+The complete modpack should be distributed through its approved CurseForge project and manifest rather than by repackaging third-party mod JARs from a local installation. CurseForge release files may include pack-owned configuration, scripts, quests, and assets together with references to the third-party projects resolved by the manifest.

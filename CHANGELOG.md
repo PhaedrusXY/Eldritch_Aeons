@@ -20,7 +20,7 @@
 
 - Public project name for `thaumic_storage_scanning` is **Tom's Thaumometer**; release version is 0.1.6.
 - Removed local web-server/authentication configuration, generated JEI lookup history, stock KubeJS example scripts, and a stale nested Build a Spell config ZIP from the cleaned release archive.
-- Added the cleaned v1.1 CurseForge export snapshot to `packages/` for auditability and recovery.
+- Recorded the cleaned v1.1 CurseForge manifest and release checksums under `packages/` for auditability and recovery.
 
 ## Initial public beta — release candidate
 

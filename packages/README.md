@@ -1,11 +1,11 @@
-# Release Packages
+# Release metadata
 
-This directory may retain small, cleaned CurseForge export snapshots for reproducibility and recovery. These archives contain the CurseForge manifest and pack overrides, not bundled third-party mod JARs.
+GitHub tracks release metadata and pack-owned source, not the downloadable CurseForge archive itself.
 
 ## v1.1
 
-- `Eldritch_Aeons_v1.1_cleaned.zip`
-- SHA-256: `99f7486c587c6a400af7ca7b7e4b2de6a6dc64a0903afe9d8d4f452f35cbe281`
-- Cleaned before publication to remove local web/auth configuration, generated JEI history, stock KubeJS example scripts, and the stale nested Build a Spell config archive.
+- `Eldritch_Aeons_v1.1_manifest.json` — exact CurseForge manifest from the cleaned v1.1 export.
+- `Eldritch_Aeons_v1.1_checksums.md` — SHA-256 values for the cleaned export and key pack-owned files.
+- Cleaned export SHA-256: `99f7486c587c6a400af7ca7b7e4b2de6a6dc64a0903afe9d8d4f452f35cbe281`.
 
-Normal players should install the published Eldritch Aeons profile through CurseForge. The snapshot here is for development, auditing, and recovery.
+The release archive itself should be downloaded from CurseForge. Third-party mod JARs are never committed here.

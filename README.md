@@ -72,7 +72,7 @@ docs/                       Installation, compatibility, release, and listing no
 .github/ISSUE_TEMPLATE/      Bug and feature request templates
 ```
 
-A cleaned v1.1 CurseForge export snapshot is retained under `packages/` for reproducibility; normal players should still install from CurseForge. The documentation is kept here for development and auditability. Most players should install Eldritch Aeons through CurseForge.
+The v1.1 CurseForge manifest and release checksums are retained under `packages/` for reproducibility; normal players should still install from CurseForge. The documentation is kept here for development and auditability. Most players should install Eldritch Aeons through CurseForge.
 
 ## Installation
 

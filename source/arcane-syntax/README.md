@@ -1,4 +1,4 @@
-# Arcane Syntax 1.0.6
+# Arcane Syntax 1.0.7
 
 Arcane Syntax replaces Build a Spell's random Spell Rune progression with deliberately crafted, researched, and permanently learned components.
 
@@ -20,6 +20,12 @@ Right-clicking an Inscribed Rune consumes it and teaches its exact Build a Spell
 
 - `/ea_arcane_syntax_migrate confirm` — one-time migration from the earlier random-rune prototype.
 - `/ea_arcane_syntax_status` — reports current Arcane Syntax milestones and learned component counts.
+
+## 1.0.7 syntactic phrases
+
+Runic Mastery now records the researcher's realization that spell components are not merely additive values in an equation. Certain combinations form higher-order grammatical constructions: the clearest early example is **Launch → Levitation → Slow Fall**, which resolves into **Creative Flight**.
+
+The Thaumonomicon wording deliberately treats this as the discovery of a phrase or sentence rather than claiming that literal left-to-right slot order is always mechanically significant; Build a Spell's combo system recognizes the required combination.
 
 ## 1.0.6 research-page hotfix
 

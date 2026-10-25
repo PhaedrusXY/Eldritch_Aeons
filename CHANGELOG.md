@@ -2,11 +2,12 @@
 
 ## v1.2 — public beta
 
-### Arcane Syntax 1.0.6
+### Arcane Syntax 1.0.7
 
 - Fixed Thaumonomicon rendering for Occultism ritual-bound Rune, Blink, and Summon inscriptions so they no longer appear as empty ordinary crafting grids.
 - Preserved the 75-component crafted-rune progression and four-tier research structure.
 - Kept the Arcane Workbench / Occultism ritual / Thaumaturge infusion split used by the release build.
+- Added a Runic Mastery Thaumonomicon page explaining that some rune combinations behave like grammatical phrases rather than merely additive formula terms, using Launch + Levitation + Slow Fall → Creative Flight as the first example.
 
 ### Build a Spell tuning and compatibility
 

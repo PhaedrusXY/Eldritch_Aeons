@@ -2,8 +2,8 @@
 
 Release bases:
 
-- `ceebc67249e1bfcce3ff659a7d45b5ce69ba54c48395928fe0b6a73aec0120e6` — `Eldritch_Aeons_v1.2_Dread_Gate.zip`
-- `bc20fb16eace94f16fc9f846e1d95cc6d34a1c70f0e29d446ac76b08334767d4` — `Eldritch_Aeons_Server_v1.2_Dread_Gate_no_mods.zip`
+- `d65d7509d5c3912733cd5986e4ea0cbcf1cd63c49f95a77b90dccf86aa1f55aa` — `Eldritch_Aeons_v1.2_Syntax_Phrases.zip`
+- `a4dce0fce208644e9ceb1e63b7b04abbe575afe26f38603fe370c89797cb7221` — `Eldritch_Aeons_Server_v1.2_Syntax_Phrases_no_mods.zip`
 
 Release metadata:
 

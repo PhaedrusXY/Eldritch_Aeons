@@ -10,7 +10,7 @@
 
 This is not a kitchen-sink pack where every powerful system is available immediately. Major mechanics are connected through custom research, recipes, quests, and cross-mod progression.
 
-**Status:** Public beta — v1.1  
+**Status:** Public beta — v1.2  
 **Canonical download:** CurseForge project page will be linked here after publication.  
 **Repository purpose:** Pack-specific source, documentation, issue tracking, and release materials. Third-party mod JARs are distributed through the CurseForge manifest, not committed here.
 
@@ -72,7 +72,7 @@ docs/                       Installation, compatibility, release, and listing no
 .github/ISSUE_TEMPLATE/      Bug and feature request templates
 ```
 
-The v1.1 CurseForge manifest and release checksums are retained under `packages/` for reproducibility; normal players should still install from CurseForge. The documentation is kept here for development and auditability. Most players should install Eldritch Aeons through CurseForge.
+The v1.2 CurseForge manifest and release checksums are retained under `packages/` for reproducibility; normal players should still install from CurseForge. The documentation is kept here for development and auditability. Most players should install Eldritch Aeons through CurseForge.
 
 ## Installation
 

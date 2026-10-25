@@ -13,7 +13,10 @@ BlockEvents.modification(event => {
 
     dreadstoneBlocks.forEach(id => {
         event.modify(id, block => {
-            block.destroySpeed = 50.0
+            // Eldritch Aeons: Dreadstone is a true progression gate.
+            // Negative destroy speed makes it unbreakable to normal mining and
+            // also causes Build a Spell's Break effect to reject it.
+            block.destroySpeed = -1.0
         })
     })
 })

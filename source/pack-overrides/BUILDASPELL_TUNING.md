@@ -1,6 +1,6 @@
-# Build a Spell tuning — Eldritch Aeons v1.1
+# Build a Spell tuning — Eldritch Aeons v1.2
 
-This file records the material balance changes in the v1.1 release. The checksum file under `packages/` identifies the exact TOML files used.
+This file records the material balance changes in the v1.2 release. The checksum file under `packages/` identifies the exact TOML files used.
 
 ## General
 
@@ -45,7 +45,7 @@ Individual hostile/control durations are tuned separately; they are intentionall
 
 ## Deliveries
 
-- Tracking remains at the upstream v1.1 release setting of **16-block homing range** and **0.3 homing strength**. A longer range was discussed after dragon testing but was **not** part of the uploaded v1.1 build.
+- Tracking remains at the upstream v1.2 release setting of **16-block homing range** and **0.3 homing strength**. A longer range was discussed after dragon testing but was **not** part of the uploaded v1.2 build.
 - Touch duration: **600 ticks**.
 - Trap lifetime: **6,000 ticks** (5 minutes), +1,200 per Duration.
 
@@ -60,4 +60,4 @@ Individual hostile/control durations are tuned separately; they are intentionall
 See the readable KubeJS files beside this document:
 
 - Shield: ensure `minecraft:max_absorption` base capacity is at least 20.
-- Dreadstone: set relevant Ice and Fire Dreadstone variants to hardness 50.
+- Dreadstone: set all relevant Ice and Fire Dreadstone variants to destroy speed -1. Build a Spell Break explicitly rejects negative destroy speed, so the Mausoleum cannot be tunneled through with spell mining.

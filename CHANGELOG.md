@@ -1,6 +1,6 @@
 # Changelog
 
-## v1.1 — public beta
+## v1.2 — public beta
 
 ### Arcane Syntax 1.0.6
 
@@ -14,13 +14,15 @@
 - Applied the duration rebalance used by Eldritch Aeons, including longer buffs and utility effects, 60-second base Creative Flight, longer summons, and extended trap lifetime.
 - Kept Runic Wand mana reduction at 40%.
 - Added the Shield compatibility workaround that raises player `minecraft:max_absorption` capacity to 20 without granting absorption by itself.
-- Added a Dreadstone hardness override (`destroySpeed = 50`) so Build a Spell Break cannot casually bypass Dragonforge progression.
+- Made all Dreadstone variants truly unbreakable (`destroySpeed = -1`), closing both normal-mining and Build a Spell Break bypasses around Dread Mausoleum progression.
+- Raised natural Dread Lich spawn chance from 0.1 to 0.5 while retaining its spawn weight of 4.
+- Replaced the Dread Lich loot table so a player kill always awards one Dread Key, while preserving the existing bone and Dread Shard rolls.
 
 ### Release packaging
 
 - Public project name for `thaumic_storage_scanning` is **Tom's Thaumometer**; release version is 0.1.6.
 - Removed local web-server/authentication configuration, generated JEI lookup history, stock KubeJS example scripts, and a stale nested Build a Spell config ZIP from the cleaned release archive.
-- Recorded the cleaned v1.1 CurseForge manifest and release checksums under `packages/` for auditability and recovery.
+- Recorded the cleaned v1.2 CurseForge manifest and release checksums under `packages/` for auditability and recovery.
 
 ## Initial public beta — release candidate
 

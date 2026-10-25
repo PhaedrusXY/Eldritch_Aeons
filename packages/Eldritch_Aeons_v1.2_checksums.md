@@ -2,8 +2,8 @@
 
 Release bases:
 
-- `d65d7509d5c3912733cd5986e4ea0cbcf1cd63c49f95a77b90dccf86aa1f55aa` — `Eldritch_Aeons_v1.2_Syntax_Phrases.zip`
-- `a4dce0fce208644e9ceb1e63b7b04abbe575afe26f38603fe370c89797cb7221` — `Eldritch_Aeons_Server_v1.2_Syntax_Phrases_no_mods.zip`
+- `3a8b47ff93177efcf55446f73af12446768720f47e3688448a8c8f04e642f9d6` — `Eldritch_Aeons_v1.2_Syntax_Phrases.zip`
+- `743c8948dde0b119ffef7de78272fd824bd311cdcf5f163d5b58dc02ecc24177` — `Eldritch_Aeons_Server_v1.2_Syntax_Phrases_no_mods.zip`
 
 Release metadata:
 

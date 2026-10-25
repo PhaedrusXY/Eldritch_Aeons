@@ -1,4 +1,4 @@
-# Dread Lich / Mausoleum tuning — v1.2
+# Dread Lich / Mausoleum tuning — v1.3
 
 Eldritch Aeons treats the Dread Mausoleum as a key-gated structure rather than a mine-through dungeon.
 
@@ -8,7 +8,7 @@ Ice and Fire's default natural Lich settings in the tested configuration were:
 - `spawnWeight = 4`
 - `spawnChance = 0.1`
 
-v1.2 changes only `spawnChance` to **0.5**. Spawn weight remains **4**.
+v1.3 changes only `spawnChance` to **0.5**. Spawn weight remains **4**.
 
 The Dread Lich loot table is overridden separately so a player kill always drops exactly one Dread Key. The existing bone and Dread Shard rolls are preserved.
 

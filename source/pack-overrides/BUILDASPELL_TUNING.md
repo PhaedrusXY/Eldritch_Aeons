@@ -1,6 +1,6 @@
-# Build a Spell tuning — Eldritch Aeons v1.2
+# Build a Spell tuning — Eldritch Aeons v1.3
 
-This file records the material balance changes in the v1.2 release. The checksum file under `packages/` identifies the exact TOML files used.
+This file records the material balance changes in the v1.3 release. The checksum file under `packages/` identifies the exact TOML files used.
 
 ## General
 
@@ -45,7 +45,7 @@ Individual hostile/control durations are tuned separately; they are intentionall
 
 ## Deliveries
 
-- Tracking remains at the upstream v1.2 release setting of **16-block homing range** and **0.3 homing strength**. A longer range was discussed after dragon testing but was **not** part of the uploaded v1.2 build.
+- Tracking remains at the upstream v1.3 release setting of **16-block homing range** and **0.3 homing strength**. A longer range was discussed after dragon testing but was **not** part of the uploaded v1.3 build.
 - Touch duration: **600 ticks**.
 - Trap lifetime: **6,000 ticks** (5 minutes), +1,200 per Duration.
 

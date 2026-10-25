@@ -1,4 +1,4 @@
-# Arcane Syntax 1.0.5
+# Arcane Syntax 1.0.6
 
 Arcane Syntax replaces Build a Spell's random Spell Rune progression with deliberately crafted, researched, and permanently learned components.
 
@@ -20,6 +20,10 @@ Right-clicking an Inscribed Rune consumes it and teaches its exact Build a Spell
 
 - `/ea_arcane_syntax_migrate confirm` — one-time migration from the earlier random-rune prototype.
 - `/ea_arcane_syntax_status` — reports current Arcane Syntax milestones and learned component counts.
+
+## 1.0.6 research-page hotfix
+
+Rune, Blink, and Summon are Occultism ritual inscriptions. Their Thaumonomicon entries no longer embed them as ordinary crafting recipes; the research pages instead direct the player to the ritual/JEI path, preventing the empty 3×3 crafting-grid display seen in the earlier build.
 
 ## Coverage
 

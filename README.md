@@ -10,7 +10,7 @@
 
 This is not a kitchen-sink pack where every powerful system is available immediately. Major mechanics are connected through custom research, recipes, quests, and cross-mod progression.
 
-**Status:** Public beta / initial CurseForge release candidate  
+**Status:** Public beta — v1.1  
 **Canonical download:** CurseForge project page will be linked here after publication.  
 **Repository purpose:** Pack-specific source, documentation, issue tracking, and release materials. Third-party mod JARs are distributed through the CurseForge manifest, not committed here.
 
@@ -41,7 +41,7 @@ See the [Draconic Artifice system notes](source/draconic-artifice/).
 
 ### Thaumaturgy that respects modern storage
 
-The bundled **Thaumic Storage Scanning** compatibility addon lets a player use a Thaumometer directly inside a Tom's Simple Storage terminal. Known aspects are displayed in the terminal, and new items can be researched without pulling each stack into the player inventory.
+The bundled **Tom's Thaumometer** compatibility addon (`thaumic_storage_scanning`) lets a player use a Thaumometer directly inside a Tom's Simple Storage terminal. Known aspects are displayed in the terminal, and new items can be researched without pulling each stack into the player inventory.
 
 ### Connected occult progression
 
@@ -67,11 +67,12 @@ assets/                     Project icon and listing artwork
 packages/                   Release-package notes
 source/arcane-syntax/       Arcane Syntax system documentation
 source/draconic-artifice/   Draconic Artifice system documentation
+source/pack-overrides/        Release-tracked pack-owned override notes and fixes
 docs/                       Installation, compatibility, release, and listing notes
 .github/ISSUE_TEMPLATE/      Bug and feature request templates
 ```
 
-Installable overlay builds are distributed with release files and the CurseForge pack. The documentation is kept here for development and auditability. Most players should install Eldritch Aeons through CurseForge.
+A cleaned v1.1 CurseForge export snapshot is retained under `packages/` for reproducibility; normal players should still install from CurseForge. The documentation is kept here for development and auditability. Most players should install Eldritch Aeons through CurseForge.
 
 ## Installation
 

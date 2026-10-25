@@ -6,6 +6,7 @@ The CurseForge manifest is authoritative. This document lists the major systems 
 | --- | --- |
 | Platform | Minecraft 26.1.2; NeoForge 26.1.2.122 |
 | Research and thaumaturgy | Thaumaturge 1.0.2; KubeThaum 1.1; Thaumic Tracker 1.0.1 |
+| Pack compatibility addon | Tom's Thaumometer 0.1.6 (`thaumic_storage_scanning`) |
 | Spell construction | Build a Spell 1.0.3 |
 | Ritual and spirit magic | Occultism 1.256.1; Occultism KubeJS 1.11.0 |
 | Dragons | Ice and Fire Community Edition 2.2-beta.4 |

@@ -1,8 +1,30 @@
 # Changelog
 
+## v1.1 — public beta
+
+### Arcane Syntax 1.0.6
+
+- Fixed Thaumonomicon rendering for Occultism ritual-bound Rune, Blink, and Summon inscriptions so they no longer appear as empty ordinary crafting grids.
+- Preserved the 75-component crafted-rune progression and four-tier research structure.
+- Kept the Arcane Workbench / Occultism ritual / Thaumaturge infusion split used by the release build.
+
+### Build a Spell tuning and compatibility
+
+- Reduced Break's base mana cost to 10 for pack balance.
+- Applied the duration rebalance used by Eldritch Aeons, including longer buffs and utility effects, 60-second base Creative Flight, longer summons, and extended trap lifetime.
+- Kept Runic Wand mana reduction at 40%.
+- Added the Shield compatibility workaround that raises player `minecraft:max_absorption` capacity to 20 without granting absorption by itself.
+- Added a Dreadstone hardness override (`destroySpeed = 50`) so Build a Spell Break cannot casually bypass Dragonforge progression.
+
+### Release packaging
+
+- Public project name for `thaumic_storage_scanning` is **Tom's Thaumometer**; release version is 0.1.6.
+- Removed local web-server/authentication configuration, generated JEI lookup history, stock KubeJS example scripts, and a stale nested Build a Spell config ZIP from the cleaned release archive.
+- Added the cleaned v1.1 CurseForge export snapshot to `packages/` for auditability and recovery.
+
 ## Initial public beta — release candidate
 
-### Arcane Syntax 1.0.5
+### Arcane Syntax 1.0.5 (initial beta)
 
 - Replaced Build a Spell's random rune-conversion progression with 75 deliberately crafted and learned runes.
 - Added four research tiers: Foundation, Structured, Infused, and Forbidden.

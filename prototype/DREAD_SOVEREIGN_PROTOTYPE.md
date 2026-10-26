@@ -2,13 +2,14 @@
 
 This branch contains the testable NeoForge 26.1.2 prototype of the Dread Queen / Black Frost Final Castle encounter.
 
-## Current test build: 0.1.3
+## Current test build: 0.1.4
 
-Version 0.1.3 is a loading and friendly-fire hotfix for 0.1.2:
+Version 0.1.4 is a loading hotfix for the stale 0.1.3 JAR that was distributed during testing:
 
-- removes the fragile vanilla `EntityAllianceMixin` and `LivingEntityAllianceMixin` classes;
+- uses the verified event-based alliance implementation rather than the fragile vanilla `EntityAllianceMixin` and `LivingEntityAllianceMixin` classes;
 - retains only the known-good Ice and Fire `DragonBaseEntityMixin` passenger guard;
-- moves encounter alliance enforcement into NeoForge damage events and per-tick encounter logic;
+- omits the ordinary `AllianceRules` helper class from the configured mixin package, preventing Mixin's `IllegalClassLoadError` during player ticking;
+- keeps encounter alliance enforcement in NeoForge damage events and per-tick encounter logic;
 - cancels direct friendly fire among Black Frost, the Queen, and registered Dreadbound summons;
 - cancels attacker-less delayed/environmental damage to the Queen and Dreadbound summons, including delayed frost damage;
 - clears freeze accumulation and redirects allied AI targets every encounter tick.

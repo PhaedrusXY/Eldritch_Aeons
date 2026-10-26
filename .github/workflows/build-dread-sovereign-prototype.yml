@@ -36,7 +36,18 @@ jobs:
         run: |
           rm -rf prototype/dread-sovereign
           mkdir -p prototype/dread-sovereign
-          cat prototype/dread-sovereign-source.tar.gz.b64.part* \
+          cat \
+            prototype/dread-sovereign-source.tar.gz.b64.part00 \
+            prototype/dread-sovereign-source.tar.gz.b64.part01 \
+            prototype/dread-sovereign-source.tar.gz.b64.part02.00 \
+            prototype/dread-sovereign-source.tar.gz.b64.part02.01 \
+            prototype/dread-sovereign-source.tar.gz.b64.part02.02 \
+            prototype/dread-sovereign-source.tar.gz.b64.part02.03 \
+            prototype/dread-sovereign-source.tar.gz.b64.part02.04 \
+            prototype/dread-sovereign-source.tar.gz.b64.part02.05 \
+            prototype/dread-sovereign-source.tar.gz.b64.part03 \
+            prototype/dread-sovereign-source.tar.gz.b64.part04 \
+            prototype/dread-sovereign-source.tar.gz.b64.part05 \
             | base64 --decode > prototype/dread-sovereign-source.tar.gz
           echo 'fe9703f50cfb8d836951404fec23c1317b0f5665654d0a4437165d52716e4c87  prototype/dread-sovereign-source.tar.gz' \
             | sha256sum --check --strict

@@ -5,8 +5,7 @@ on:
     branches:
       - prototype/dread-sovereign
     paths:
-      - 'prototype/dread-sovereign-source.tar.gz.b64.part*'
-      - 'prototype/dread-sovereign-0.1.3.patch'
+      - 'prototype/dread-sovereign-source-0.1.3.tar.gz.b64.part*'
       - 'prototype/DREAD_SOVEREIGN_PROTOTYPE.md'
       - '.github/workflows/build-dread-sovereign-prototype.yml'
   workflow_dispatch:
@@ -32,34 +31,23 @@ jobs:
         with:
           gradle-version: '9.2.1'
 
-      - name: Expand and patch prototype source
+      - name: Expand prototype source
         shell: bash
         run: |
           set -euo pipefail
           rm -rf prototype/dread-sovereign
           mkdir -p prototype/dread-sovereign
           cat \
-            prototype/dread-sovereign-source.tar.gz.b64.part00 \
-            prototype/dread-sovereign-source.tar.gz.b64.part01 \
-            prototype/dread-sovereign-source.tar.gz.b64.part02.00 \
-            prototype/dread-sovereign-source.tar.gz.b64.part02.01 \
-            prototype/dread-sovereign-source.tar.gz.b64.part02.02 \
-            prototype/dread-sovereign-source.tar.gz.b64.part02.03 \
-            prototype/dread-sovereign-source.tar.gz.b64.part02.04 \
-            prototype/dread-sovereign-source.tar.gz.b64.part02.05 \
-            prototype/dread-sovereign-source.tar.gz.b64.part03 \
-            prototype/dread-sovereign-source.tar.gz.b64.part04 \
-            prototype/dread-sovereign-source.tar.gz.b64.part05 \
-            | base64 --decode > prototype/dread-sovereign-source.tar.gz
-          echo 'fe9703f50cfb8d836951404fec23c1317b0f5665654d0a4437165d52716e4c87  prototype/dread-sovereign-source.tar.gz' \
+            prototype/dread-sovereign-source-0.1.3.tar.gz.b64.part00 \
+            prototype/dread-sovereign-source-0.1.3.tar.gz.b64.part01 \
+            prototype/dread-sovereign-source-0.1.3.tar.gz.b64.part02 \
+            prototype/dread-sovereign-source-0.1.3.tar.gz.b64.part03 \
+            prototype/dread-sovereign-source-0.1.3.tar.gz.b64.part04 \
+            prototype/dread-sovereign-source-0.1.3.tar.gz.b64.part05 \
+            | base64 --decode > prototype/dread-sovereign-source-0.1.3.tar.gz
+          echo '16124fa9de65d9926261eabcd0be0b0f58a63409289cf067a17c95340c7200c5  prototype/dread-sovereign-source-0.1.3.tar.gz' \
             | sha256sum --check --strict
-          echo '635cefd9b62c21d952a5ab455faf69afa2763e0f8257baf6bbbeaf44d59bbf3d  prototype/dread-sovereign-0.1.3.patch' \
-            | sha256sum --check --strict
-          tar -xzf prototype/dread-sovereign-source.tar.gz -C prototype/dread-sovereign
-          (
-            cd prototype/dread-sovereign
-            patch --batch --forward -p1 < ../dread-sovereign-0.1.3.patch
-          )
+          tar -xzf prototype/dread-sovereign-source-0.1.3.tar.gz -C prototype/dread-sovereign
           test ! -e prototype/dread-sovereign/src/main/java/com/phaedrusxy/dreadsovereign/mixin/EntityAllianceMixin.java
           test ! -e prototype/dread-sovereign/src/main/java/com/phaedrusxy/dreadsovereign/mixin/LivingEntityAllianceMixin.java
           grep -q 'mod_version=0.1.3-prototype' prototype/dread-sovereign/gradle.properties

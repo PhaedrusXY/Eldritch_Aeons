@@ -38,7 +38,7 @@ jobs:
           mkdir -p prototype/dread-sovereign
           cat prototype/dread-sovereign-source.tar.gz.b64.part* \
             | base64 --decode > prototype/dread-sovereign-source.tar.gz
-          echo '25487555ca2e175e519e30ae1f506e0d0abf06154f34cfccc71d4ef0636bc894  prototype/dread-sovereign-source.tar.gz' \
+          echo 'fe9703f50cfb8d836951404fec23c1317b0f5665654d0a4437165d52716e4c87  prototype/dread-sovereign-source.tar.gz' \
             | sha256sum --check --strict
           tar -xzf prototype/dread-sovereign-source.tar.gz -C prototype/dread-sovereign
 

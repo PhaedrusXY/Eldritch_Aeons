@@ -38,34 +38,9 @@ jobs:
           mkdir -p prototype/dread-sovereign
           cat prototype/dread-sovereign-source.tar.gz.b64.part* \
             | base64 --decode > prototype/dread-sovereign-source.tar.gz
-          echo '178fbb2cb572a080bcb7f676943bdcd95cc91a4b7612b81a63fb990cf6455275  prototype/dread-sovereign-source.tar.gz' \
+          echo '53c55f425489d3beb7d7d08d38b62b542f0e89a88be96559d95d9e04322d7a79  prototype/dread-sovereign-source.tar.gz' \
             | sha256sum --check --strict
           tar -xzf prototype/dread-sovereign-source.tar.gz -C prototype/dread-sovereign
-
-      - name: Isolate compile-time Occultism dependency
-        shell: bash
-        run: |
-          python - <<'PY'
-          from pathlib import Path
-          import re
-
-          build = Path('prototype/dread-sovereign/build.gradle')
-          text = build.read_text()
-          pattern = r'(?m)^\s*implementation\("com\.klikli_dev:occultism-\$\{minecraft_version\}-neoforge:\$\{occultism_version\}"\)\s*$'
-          replacement = '''    compileOnly("com.klikli_dev:occultism-${minecraft_version}-neoforge:${occultism_version}") {
-                  transitive = false
-              }'''
-          updated, count = re.subn(pattern, replacement, text)
-          if count != 1:
-              raise SystemExit(f'Expected to patch exactly one Occultism dependency, patched {count}.')
-          build.write_text(updated)
-
-          properties = Path('prototype/dread-sovereign/gradle.properties')
-          props = properties.read_text()
-          props = re.sub(r'(?m)^org\.gradle\.configuration-cache=.*$',
-                         'org.gradle.configuration-cache=false', props)
-          properties.write_text(props)
-          PY
 
       - name: Compile and package
         id: build

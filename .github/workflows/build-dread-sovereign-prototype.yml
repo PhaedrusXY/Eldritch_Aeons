@@ -121,7 +121,7 @@ jobs:
             echo 'Forbidden or removed classes remain in the packaged mixin configuration.' >&2
             exit 1
           fi
-          if unzip -p "$JAR" META-INF/neoforge.mods.toml | grep -vq 'version="0.1.4-prototype"'; then
+          if ! unzip -p "$JAR" META-INF/neoforge.mods.toml | grep -q 'version="0.1.4-prototype"'; then
             echo 'Packaged mod version was not updated to 0.1.4.' >&2
             exit 1
           fi

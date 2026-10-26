@@ -5,7 +5,7 @@ on:
     branches:
       - prototype/dread-sovereign
     paths:
-      - 'prototype/dread-sovereign-source.tar.gz.b64.part*'
+      - 'prototype/dread-sovereign-source-*.tar.gz'
       - 'prototype/DREAD_SOVEREIGN_PROTOTYPE.md'
       - '.github/workflows/build-dread-sovereign-prototype.yml'
   workflow_dispatch:
@@ -36,22 +36,9 @@ jobs:
         run: |
           rm -rf prototype/dread-sovereign
           mkdir -p prototype/dread-sovereign
-          cat \
-            prototype/dread-sovereign-source.tar.gz.b64.part00 \
-            prototype/dread-sovereign-source.tar.gz.b64.part01 \
-            prototype/dread-sovereign-source.tar.gz.b64.part02.00 \
-            prototype/dread-sovereign-source.tar.gz.b64.part02.01 \
-            prototype/dread-sovereign-source.tar.gz.b64.part02.02 \
-            prototype/dread-sovereign-source.tar.gz.b64.part02.03 \
-            prototype/dread-sovereign-source.tar.gz.b64.part02.04 \
-            prototype/dread-sovereign-source.tar.gz.b64.part02.05 \
-            prototype/dread-sovereign-source.tar.gz.b64.part03 \
-            prototype/dread-sovereign-source.tar.gz.b64.part04 \
-            prototype/dread-sovereign-source.tar.gz.b64.part05 \
-            | base64 --decode > prototype/dread-sovereign-source.tar.gz
-          echo 'fe9703f50cfb8d836951404fec23c1317b0f5665654d0a4437165d52716e4c87  prototype/dread-sovereign-source.tar.gz' \
+          echo '16124fa9de65d9926261eabcd0be0b0f58a63409289cf067a17c95340c7200c5  prototype/dread-sovereign-source-0.1.3.tar.gz' \
             | sha256sum --check --strict
-          tar -xzf prototype/dread-sovereign-source.tar.gz -C prototype/dread-sovereign
+          tar -xzf prototype/dread-sovereign-source-0.1.3.tar.gz -C prototype/dread-sovereign
 
       - name: Compile and package
         id: build
@@ -61,6 +48,30 @@ jobs:
           mkdir -p prototype/dread-sovereign/build
           gradle -p prototype/dread-sovereign clean assemble --stacktrace --no-configuration-cache 2>&1 \
             | tee prototype/dread-sovereign/build/build-output.log
+
+      - name: Verify packaged mixins
+        if: success()
+        shell: bash
+        run: |
+          set -euo pipefail
+          JAR="$(find prototype/dread-sovereign/build/libs -maxdepth 1 -name '*.jar' | head -n 1)"
+          test -n "$JAR"
+          jar tf "$JAR" | grep -q 'com/phaedrusxy/dreadsovereign/mixin/DragonBaseEntityMixin.class'
+          if jar tf "$JAR" | grep -q 'EntityAllianceMixin.class'; then
+            echo 'Unexpected EntityAllianceMixin remained in the packaged JAR.' >&2
+            exit 1
+          fi
+          if jar tf "$JAR" | grep -q 'LivingEntityAllianceMixin.class'; then
+            echo 'Unexpected LivingEntityAllianceMixin remained in the packaged JAR.' >&2
+            exit 1
+          fi
+          unzip -p "$JAR" dreadsovereign.mixins.json | grep -q 'DragonBaseEntityMixin'
+          if unzip -p "$JAR" dreadsovereign.mixins.json | grep -Eq 'EntityAllianceMixin|LivingEntityAllianceMixin'; then
+            echo 'Removed vanilla mixins are still referenced by dreadsovereign.mixins.json.' >&2
+            exit 1
+          fi
+          javap -classpath "$JAR" -v com.phaedrusxy.dreadsovereign.mixin.DragonBaseEntityMixin \
+            | grep -q 'RuntimeInvisibleAnnotations'
 
       - name: Upload build log
         if: always()

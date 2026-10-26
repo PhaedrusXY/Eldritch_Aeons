@@ -2,7 +2,16 @@
 
 This branch contains the testable NeoForge 26.1.2 prototype of the Dread Queen / Black Frost Final Castle encounter.
 
-The complete Gradle source project is stored as checksum-verified base64 chunks; the branch workflow reconstructs it and builds the test JAR. This packaging keeps the prototype isolated from the released Eldritch Aeons pack while the encounter is being tested.
+## Current test build: 0.1.3
+
+Version 0.1.3 is a loading and friendly-fire hotfix for 0.1.2:
+
+- removes the fragile vanilla `EntityAllianceMixin` and `LivingEntityAllianceMixin` classes;
+- retains only the known-good Ice and Fire `DragonBaseEntityMixin` passenger guard;
+- moves encounter alliance enforcement into NeoForge damage events and per-tick encounter logic;
+- cancels direct friendly fire among Black Frost, the Queen, and registered Dreadbound summons;
+- cancels attacker-less delayed/environmental damage to the Queen and Dreadbound summons, including delayed frost damage;
+- clears freeze accumulation and redirects allied AI targets every encounter tick.
 
 Implemented encounter behavior:
 
@@ -14,10 +23,6 @@ Implemented encounter behavior:
 - unbound, permanently killable Black Frost finale after the Queen dies;
 - operator commands for rapid phase testing and cleanup.
 
-## 0.1.2 prototype fixes
+The cinematic camera, player lock, recorded voice work, expanded resurrection presentation, final model/renderer, and balance pass remain deferred.
 
-- Black Frost, the Dread Queen, and summoned Dread creatures now share a no-friendly-fire scoreboard team. Ice and Fire checks this alliance before applying both dragon damage and its Frozen effect.
-- Encounter maintenance clears any residual Frozen effect and accidental allied targeting.
-- Black Frost now receives an upward flight recovery after 30 submerged ticks and an arena reset after 80 submerged ticks if Ice and Fire's swimming AI leaves him inert in water.
-
-The cinematic camera, player lock, recorded voice work, expanded resurrection presentation, proper Queen model/entity, and final balance remain deferred.
+Replace all earlier Dread Sovereign prototype JARs. Install only the newest version.

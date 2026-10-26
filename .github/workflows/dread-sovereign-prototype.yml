@@ -1,0 +1,60 @@
+name: Build Dread Sovereign prototype
+
+on:
+  push:
+    branches:
+      - dread-sovereign-prototype
+    paths:
+      - 'prototype-mods/dread-sovereign-archive/**'
+      - '.github/workflows/dread-sovereign-prototype.yml'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out prototype branch
+        uses: actions/checkout@v4
+
+      - name: Reconstruct and verify source archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat prototype-mods/dread-sovereign-archive/source.zip.b64.* \
+            | tr -d '\n' \
+            | base64 -d \
+            > /tmp/dread-sovereign-source.zip
+          printf '%s  %s\n' \
+            '0b0637f570c8cba2e4b2f53bb67ad28957996397c1d2afbb5069cd291abf1f45' \
+            '/tmp/dread-sovereign-source.zip' \
+            | sha256sum -c -
+          mkdir -p /tmp/dread-sovereign-unpacked prototype-mods/dread-sovereign
+          unzip -q /tmp/dread-sovereign-source.zip -d /tmp/dread-sovereign-unpacked
+          cp -a /tmp/dread-sovereign-unpacked/DreadSovereign_0.1.0-alpha/. \
+            prototype-mods/dread-sovereign/
+
+      - name: Install JDK 25 toolchain and Java 21 Gradle runtime
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: |
+            25
+            21
+
+      - name: Install Gradle 8.14.3
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.14.3'
+
+      - name: Build prototype
+        working-directory: prototype-mods/dread-sovereign
+        run: gradle build -Porg.gradle.java.installations.fromEnv=JAVA_HOME_25_X64 --stacktrace
+
+      - name: Upload prototype JAR
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dread-sovereign-0.1.0-alpha
+          path: prototype-mods/dread-sovereign/build/libs/*.jar
+          if-no-files-found: error

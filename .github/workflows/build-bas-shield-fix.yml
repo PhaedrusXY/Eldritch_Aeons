@@ -1,0 +1,109 @@
+name: Build Build A Spell Shield Fix
+
+on:
+  push:
+    branches:
+      - fix/buildaspell-shield-stacking
+    paths:
+      - 'source/buildaspell-shield-fix/**'
+      - '.github/workflows/build-bas-shield-fix.yml'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Java 25
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '9.2.1'
+
+      - name: Download exact Build A Spell target
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p source/buildaspell-shield-fix/libs
+          curl --fail --location --silent --show-error \
+            'https://github.com/CyberDay1/CybersBuildASpell/releases/download/v1.0.3/buildaspell-1.0.3-mc26.1.2.jar' \
+            --output source/buildaspell-shield-fix/libs/buildaspell-1.0.3-mc26.1.2.jar
+          echo 'b480ad587907c01b4f0e5e1f09b39b1c14d575cbd9b5798a9f59bc13cc61ed86  source/buildaspell-shield-fix/libs/buildaspell-1.0.3-mc26.1.2.jar' \
+            | sha256sum --check --strict
+
+      - name: Compile and package
+        shell: bash
+        run: |
+          set -o pipefail
+          gradle -p source/buildaspell-shield-fix clean build --stacktrace --no-configuration-cache 2>&1 \
+            | tee source/buildaspell-shield-fix-build-output.log
+
+      - name: Verify packaged patch
+        shell: bash
+        run: |
+          set -euo pipefail
+          JAR="$(find source/buildaspell-shield-fix/build/libs -maxdepth 1 -name '*.jar' | head -n 1)"
+          test -n "$JAR"
+          jar tf "$JAR" | grep -q 'com/phaedrusxy/basshieldfix/BuildASpellShieldFix.class'
+          jar tf "$JAR" | grep -q 'com/phaedrusxy/basshieldfix/mixin/EffectExecutorsMixin.class'
+          jar tf "$JAR" | grep -q 'bas_shield_fix.mixins.json'
+          unzip -p "$JAR" META-INF/neoforge.mods.toml | grep -q 'modId="bas_shield_fix"'
+          unzip -p "$JAR" META-INF/neoforge.mods.toml | grep -q 'version="1.0.0"'
+          unzip -p "$JAR" META-INF/neoforge.mods.toml | grep -q 'versionRange="\[1.0.3,1.0.4)"'
+          unzip -p "$JAR" bas_shield_fix.mixins.json | grep -q 'EffectExecutorsMixin'
+          javap -classpath "$JAR" -v com.phaedrusxy.basshieldfix.mixin.EffectExecutorsMixin \
+            | grep -q 'RuntimeInvisibleAnnotations'
+          javap -classpath "$JAR" -c -p com.phaedrusxy.basshieldfix.mixin.EffectExecutorsMixin \
+            | grep -q 'getAbsorptionAmount'
+
+      - name: Smoke-test mixin against Build A Spell 1.0.3
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p source/buildaspell-shield-fix/run
+          echo 'eula=true' > source/buildaspell-shield-fix/run/eula.txt
+          set +e
+          timeout 120s gradle -p source/buildaspell-shield-fix runServer \
+            --stacktrace --no-daemon --no-configuration-cache \
+            > source/buildaspell-shield-fix-smoke-test.log 2>&1
+          STATUS=$?
+          set -e
+          cat source/buildaspell-shield-fix-smoke-test.log
+          if [[ "$STATUS" -ne 0 && "$STATUS" -ne 124 ]]; then
+            echo "Server smoke test exited unexpectedly with status $STATUS" >&2
+            exit "$STATUS"
+          fi
+          grep -q 'Done (' source/buildaspell-shield-fix-smoke-test.log
+          if grep -Eq 'Mixin apply for mod bas_shield_fix failed|InvalidInjectionException|InjectionError|MixinTransformerError|Critical injection failure' \
+              source/buildaspell-shield-fix-smoke-test.log; then
+            echo 'The Shield mixin failed during the server smoke test.' >&2
+            exit 1
+          fi
+
+      - name: Upload validation logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bas-shield-fix-validation-logs
+          path: |
+            source/buildaspell-shield-fix-build-output.log
+            source/buildaspell-shield-fix-smoke-test.log
+          if-no-files-found: warn
+
+      - name: Upload mod JAR
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bas-shield-fix-1.0.0
+          path: source/buildaspell-shield-fix/build/libs/*.jar
+          if-no-files-found: error

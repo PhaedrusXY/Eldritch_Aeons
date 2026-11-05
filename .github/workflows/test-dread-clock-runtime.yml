@@ -1,0 +1,80 @@
+name: Dread clock KubeJS runtime integration
+on:
+  push:
+    branches: [fix/dread-clock-runtime]
+    paths:
+      - 'tests/dread-clock-runtime/**'
+      - '.github/workflows/test-dread-clock-runtime.yml'
+  workflow_dispatch:
+jobs:
+  runtime:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+      - name: Install exact server runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p runtime
+          curl -fLsS 'https://maven.neoforged.net/releases/net/neoforged/neoforge/26.1.2.122/neoforge-26.1.2.122-installer.jar' -o installer.jar
+          java -jar installer.jar --installServer runtime > installer.log 2>&1
+          mkdir -p runtime/mods runtime/kubejs/server_scripts
+          curl -fLsS 'https://github.com/kube-mods/kubejs/releases/download/v26.1.2-neoforge-8.0.6/kubejs-neoforge-26.1.2-8.0.6.jar' -o runtime/mods/kubejs.jar
+          curl -fLsS 'https://cdn.modrinth.com/data/sk9knFPE/versions/SqkDvOLG/rhino-2101.2.8-build.91.jar' -o runtime/mods/rhino.jar
+          echo '36df262649e53c4b8256193198e7f5d225a6fec05f4b1e74e55c271e657ea5f0  runtime/mods/kubejs.jar' | sha256sum -c
+          echo '1d53d962aa4dac54bcbb4f998c1845980cf194318f1d6b1580ea6ac15cce5ef3  runtime/mods/rhino.jar' | sha256sum -c
+          cat tests/dread-clock-runtime/eldritch_aeons_dread_incursions.js tests/dread-clock-runtime/runtime_test.js > runtime/kubejs/server_scripts/eldritch_aeons_dread_incursions.js
+          echo 'eula=true' > runtime/eula.txt
+          printf '%s\n' '-Xmx2G' > runtime/user_jvm_args.txt
+          printf '%s\n' 'online-mode=false' 'server-ip=127.0.0.1' 'level-type=minecraft:flat' 'generate-structures=false' 'view-distance=2' 'simulation-distance=2' 'pause-when-empty-seconds=0' > runtime/server.properties
+      - name: Exercise startup and player scheduling APIs
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import subprocess, selectors, time, pathlib, sys
+          p = subprocess.Popen(['bash','run.sh','nogui'],cwd='runtime',stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,bufsize=0)
+          selector=selectors.DefaultSelector();selector.register(p.stdout,selectors.EVENT_READ)
+          deadline=time.monotonic()+210
+          output=bytearray();success=False;finished=False
+          with open('runtime-test.log','wb') as log:
+              while time.monotonic()<deadline:
+                  for key,_ in selector.select(timeout=.5):
+                      chunk=key.fileobj.read(65536)
+                      if not chunk:
+                          finished=True;break
+                      log.write(chunk);log.flush();output.extend(chunk)
+                      sys.stdout.buffer.write(chunk);sys.stdout.flush()
+                  if b'DREAD_RUNTIME_TEST_FAILURE' in output: break
+                  if b'DREAD_RUNTIME_TEST_SUCCESS' in output:
+                      success=True;break
+                  if finished or p.poll() is not None: break
+              if p.poll() is None:
+                  try:
+                      p.stdin.write(b'stop\n');p.stdin.flush()
+                      tail,_=p.communicate(timeout=35)
+                      log.write(tail);output.extend(tail)
+                  except Exception:
+                      p.kill();p.wait()
+          if not success:
+              raise SystemExit('Actual KubeJS runtime regression test did not pass; inspect runtime-test.log')
+          print('Verified runtime marker with real world/FakePlayer/statistic objects; spawn commands were intercepted by the test harness.')
+          PY
+      - name: Preserve validation logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dread-clock-runtime-validation
+          path: |
+            runtime-test.log
+            installer.log
+            runtime/logs/latest.log
+            runtime/logs/kubejs/server.log
+            runtime/kubejs/logs/server.log
+          if-no-files-found: warn

@@ -28,6 +28,7 @@ jobs:
           mkdir -p runtime/mods runtime/kubejs/server_scripts
           curl -fLsS 'https://github.com/kube-mods/kubejs/releases/download/v26.1.2-neoforge-8.0.6/kubejs-neoforge-26.1.2-8.0.6.jar' -o runtime/mods/kubejs.jar
           curl -fLsS 'https://cdn.modrinth.com/data/sk9knFPE/versions/SqkDvOLG/rhino-2101.2.8-build.91.jar' -o runtime/mods/rhino.jar
+          curl -fLsS 'https://mediafilez.forgecdn.net/files/9148/547/better-advanced-tooltips-2601.1.0-build.11.jar' -o runtime/mods/better-advanced-tooltips.jar
           echo '36df262649e53c4b8256193198e7f5d225a6fec05f4b1e74e55c271e657ea5f0  runtime/mods/kubejs.jar' | sha256sum -c
           echo '1d53d962aa4dac54bcbb4f998c1845980cf194318f1d6b1580ea6ac15cce5ef3  runtime/mods/rhino.jar' | sha256sum -c
           cat tests/dread-clock-runtime/eldritch_aeons_dread_incursions.js tests/dread-clock-runtime/runtime_test.js > runtime/kubejs/server_scripts/eldritch_aeons_dread_incursions.js

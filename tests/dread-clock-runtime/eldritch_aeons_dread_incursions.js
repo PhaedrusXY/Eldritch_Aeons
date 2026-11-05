@@ -231,13 +231,13 @@ function eaDreadCheck(event) {
 
     if (stage === 2) {
       eaDreadActive = {
-        uuid: String(player.getUUID()),
+        uuid: String(player.getUuid()),
         wave: 2,
         nextTick: nowTick + EADI_SECOND_WAVE_DELAY
       }
     } else {
       // A brief global cooldown; prevents simultaneous global template swaps.
-      eaDreadActive = {uuid: String(player.getUUID()), wave: 0, nextTick: nowTick + 1200}
+      eaDreadActive = {uuid: String(player.getUuid()), wave: 0, nextTick: nowTick + 1200}
     }
     break
   }

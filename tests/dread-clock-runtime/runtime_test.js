@@ -31,7 +31,7 @@ ServerEvents.tick(function (event) {
     world.getChunk(0, 0)
     player.setPos(0.5, 200, 0.5)
     eaDreadTestAssert(String(player.getName().getString()) === 'DreadTest', 'real player name API')
-    eaDreadTestAssert(String(player.getUUID()) === String(testId), 'real player UUID API')
+    eaDreadTestAssert(String(player.getUuid()) === String(testId), 'real player UUID API')
     eaDreadTestAssert(String(player.level.dimension) === 'minecraft:overworld', 'real player dimension property')
     eaDreadTestAssert(eaDreadEligibleSurface(player), 'real surface and alive checks')
     var data = player.persistentData

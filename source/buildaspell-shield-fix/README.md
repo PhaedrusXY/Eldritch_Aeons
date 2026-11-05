@@ -1,37 +1,23 @@
-# Build A Spell Shield Fix
+# Build A Spell Shield Fix v1.1.0
 
-A minimal NeoForge 26.1.2 compatibility mod for Build A Spell 1.0.3.
+This extends our original standalone mod `bas_shield_fix`, alongside the official Build A Spell 1.0.3. It does not replace its JAR.
 
-## What it changes
-
-Build A Spell currently calculates Shield absorption as:
-
-```text
-min(current absorption + new Shield amount, configured cap)
-```
-
-That lets a very cheap Shield be cast repeatedly until it reaches the same cap as a stronger spell.
-This patch changes the result to:
-
-```text
-max(current absorption, min(new Shield amount, configured cap))
-```
-
-A stronger Shield upgrades a weaker one. Equal or weaker recasts do not add more absorption.
-
-## Performance
-
-The patch has no tick handler. It redirects one `Math.min(float, float)` call only while Build A
-Spell's Shield effect is being executed.
-
-## Existing max-absorption workaround
-
-This mod fixes stacking only. Eldritch Aeons should retain its existing
-`kubejs/server_scripts/buildaspell_shield_fix.js`, which raises players' `MAX_ABSORPTION` base value
-on login and respawn so Shield can grant absorption in the first place.
+## Changes from 1.0.0
+- Original Shield absorption stacking correction is unchanged.
+- Break + Fill acts like ordinary Break; no massive connected terrain excavation.
+- Evaporate Water + Fill acts like ordinary local evaporation.
+- Break + Chain on Cast/Tracking projectile hits up to 8 additional same-block targets per Chain stack, capped at 32, breaking each extra block individually (not as another area effect); the original per-hop search radius remains 4.
+- Conjure + Floor + Fill creates a one-block-thick horizontal platform (default radius 30, max 4096 placements).
+- Conjure + Wall + Fill retains its dramatic pillar behavior.
+- Build A Spell's builder no longer suggests Fill for Break or Evaporate Water.
 
 ## Compatibility
+- MC 26.1.2, NeoForge 26.1.2.122+, Java 25.
+- Requires Build A Spell 1.0.3 (not an alternate version).
+- Keep `kubejs/server_scripts/buildaspell_shield_fix.js` for maximum absorption workaround.
+- Install the new compatibility JAR on client AND server; remove 1.0.0.
 
-- Minecraft 26.1.2
-- NeoForge 26.1.2.122 or newer within the 26.1.2 line
-- Build A Spell 1.0.3
+No saved world data or ticking event listeners are added. Saved spells remain loadable; an existing Break+Fill spell may still charge for Fill until edited.
+
+## Build
+Run the GitHub Actions workflow on branch `feature/bas-shield-fix-v1.1.0`, or place official Build A Spell 1.0.3 in `libs/` and build with Java 25 / Gradle 9.2.1. Test on a backup world.

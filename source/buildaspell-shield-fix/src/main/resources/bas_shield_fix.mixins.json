@@ -4,7 +4,9 @@
   "package": "com.phaedrusxy.basshieldfix.mixin",
   "compatibilityLevel": "JAVA_25",
   "mixins": [
-    "EffectExecutorsMixin"
+    "EffectExecutorsMixin",
+    "SpellProjectileEntityMixin",
+    "ModifierApplicabilityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

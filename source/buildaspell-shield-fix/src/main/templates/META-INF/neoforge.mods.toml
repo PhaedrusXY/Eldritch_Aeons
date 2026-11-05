@@ -8,8 +8,9 @@ displayName="${mod_name}"
 authors="PhaedrusXY"
 displayURL="https://github.com/PhaedrusXY/Eldritch_Aeons"
 description='''
-Prevents Build A Spell 1.0.3 Shield spells from stacking repeated low-cost casts to the absorption cap.
-A stronger Shield upgrades a weaker one; an equal or weaker recast leaves the existing absorption unchanged.
+Compatibility corrections for Build A Spell 1.0.3: Shield recasts upgrade instead of stacking.
+Fill applies to creation, not mass destruction. Break + Chain spreads through a limited
+number of matching blocks. Conjure + Floor + Fill creates a flat platform.
 '''
 
 [[mixins]]

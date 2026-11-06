@@ -6,7 +6,8 @@
   "mixins": [
     "EffectExecutorsMixin",
     "SpellProjectileEntityMixin",
-    "ModifierApplicabilityMixin"
+    "ModifierApplicabilityMixin",
+    "ShieldCapacityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

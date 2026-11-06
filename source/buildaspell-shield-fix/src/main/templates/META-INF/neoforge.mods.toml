@@ -8,9 +8,10 @@ displayName="${mod_name}"
 authors="PhaedrusXY"
 displayURL="https://github.com/PhaedrusXY/Eldritch_Aeons"
 description='''
-Compatibility corrections for Build A Spell 1.0.3: Shield recasts upgrade instead of stacking.
-Fill applies to creation, not mass destruction. Break + Chain spreads through a limited
-number of matching blocks. Conjure + Floor + Fill creates a flat platform.
+Standalone compatibility corrections for Build A Spell 1.0.3.
+Shield capacity and non-stacking absorption are fixed natively; KubeJS is not required.
+Fill does not amplify Break or Evaporate Water. Break + Chain provides limited
+same-block excavation. Conjure + Floor + Fill creates a flat platform.
 '''
 
 [[mixins]]
@@ -33,7 +34,7 @@ side="BOTH"
 [[dependencies.${mod_id}]]
 modId="buildaspell"
 type="required"
-reason="This patch targets Build A Spell's Shield executor."
+reason="Targets Build A Spell 1.0.3 spell executors and projectile chaining."
 versionRange="[1.0.3,1.0.4)"
 ordering="AFTER"
 side="BOTH"

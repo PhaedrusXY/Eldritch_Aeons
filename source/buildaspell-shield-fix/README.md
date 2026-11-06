@@ -1,23 +1,52 @@
-# Build A Spell Shield Fix v1.1.0
+# Build A Spell Shield Fix v1.1.1
 
-This extends our original standalone mod `bas_shield_fix`, alongside the official Build A Spell 1.0.3. It does not replace its JAR.
+Standalone patch (`bas_shield_fix`) for Build A Spell 1.0.3, Minecraft 26.1.2,
+NeoForge 26.1.2.122+, Java 25. Install on client and server alongside the original mod.
 
-## Changes from 1.0.0
-- Original Shield absorption stacking correction is unchanged.
-- Break + Fill acts like ordinary Break; no massive connected terrain excavation.
-- Evaporate Water + Fill acts like ordinary local evaporation.
-- Break + Chain on Cast/Tracking projectile hits up to 8 additional same-block targets per Chain stack, capped at 32, breaking each extra block individually (not as another area effect); the original per-hop search radius remains 4.
-- Conjure + Floor + Fill creates a one-block-thick horizontal platform (default radius 30, max 4096 placements).
-- Conjure + Wall + Fill retains its dramatic pillar behavior.
-- Build A Spell's builder no longer suggests Fill for Break or Evaporate Water.
+## Shield is now fully native: no KubeJS dependency
 
-## Compatibility
-- MC 26.1.2, NeoForge 26.1.2.122+, Java 25.
-- Requires Build A Spell 1.0.3 (not an alternate version).
-- Keep `kubejs/server_scripts/buildaspell_shield_fix.js` for maximum absorption workaround.
-- Install the new compatibility JAR on client AND server; remove 1.0.0.
+Version 1.1.0 fixed additive Shield stacking but still relied on
+`kubejs/server_scripts/buildaspell_shield_fix.js` to raise players' MAX_ABSORPTION
+base value to at least 20 on login and respawn. Without that script (or another
+source of capacity), a zero maximum could suppress Shield's absorption.
 
-No saved world data or ticking event listeners are added. Saved spells remain loadable; an existing Break+Fill spell may still charge for Fill until edited.
+Version 1.1.1 moves both player-event handlers into Java and ensures capacity
+immediately before each actual Shield recipient receives absorption. This covers
+fresh players and non-player recipients as well as existing saves. Raising capacity
+does not grant hearts: Shield still supplies its configured amount. The original
+non-stacking behavior remains: equal/weaker casts do not add protection, stronger
+casts upgrade it, and existing higher absorption is not lowered.
 
-## Build
-Run the GitHub Actions workflow on branch `feature/bas-shield-fix-v1.1.0`, or place official Build A Spell 1.0.3 in `libs/` and build with Java 25 / Gradle 9.2.1. Test on a backup world.
+The login/respawn floor is 20, exactly like the old script. Cast-time capacity also
+accommodates Build A Spell's configured `effects.shield.absorptionCap` if higher.
+No higher existing base values or attribute modifiers are removed. Negative
+attribute modifiers from other mods are not bypassed. No tick loop is added.
+
+## Upgrade from 1.1.0
+
+1. Stop server and client; replace the old patch JAR with `bas_shield_fix-1.1.1.jar` on both.
+2. Remove only `kubejs/server_scripts/buildaspell_shield_fix.js` from the server and pack/client overrides.
+3. Keep Build A Spell 1.0.3 and all other KubeJS scripts/configuration unchanged. Eldritch Aeons still needs KubeJS for unrelated systems.
+4. Fully restart. No world reset, spell migration, or player-data edit is required.
+
+The legacy script is idempotent with the native 20-point floor, so accidentally
+leaving it in place does not add absorption repeatedly; it is simply unnecessary.
+
+## Existing v1.1.0 changes retained
+
+- Break ignores Fill; normal Break behavior and other modifiers remain.
+- Evaporate Water ignores Fill.
+- Break + Chain projectile block hits: up to 8 additional same-type blocks per Chain level, capped at 32, within the configured per-hop search radius (default 4).
+- Conjure + Floor + Fill creates a one-block-thick horizontal platform; existing whitelist, radius and placement budget apply.
+- Conjure + Wall + Fill remains unchanged, including vertical pillars.
+- Fill is marked not useful for Break and Evaporate Water in the spell builder.
+
+No changes to Arcane Syntax progression, Dread Incursions, Champion scripts, or modpack recipes.
+
+## Build and test
+
+Use Java 25 and Gradle 9.2.1. Put official `buildaspell-1.0.3-mc26.1.2.jar` in `libs/`, then run `gradle clean build`.
+CI produces the release JAR first, then separately includes `src/testRuntime/java`
+with `-PshieldRuntimeTest` to exercise real Minecraft entities, NeoForge player
+events, and the original Build A Spell Shield executor. No KubeJS is installed.
+The CI-only harness is not shipped in the release JAR.

@@ -1,0 +1,104 @@
+name: Build standalone Shield Fix 1.1.1
+on:
+  push:
+    branches: [feature/bas-shield-fix-v1.1.1-standalone]
+    paths:
+      - 'source/buildaspell-shield-fix/**'
+      - '.github/workflows/build-bas-shield-fix-v1.1.1.yml'
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '9.2.1'
+      - name: Download exact upstream dependency
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p source/buildaspell-shield-fix/libs dist
+          curl -fLsS 'https://github.com/CyberDay1/CybersBuildASpell/releases/download/v1.0.3/buildaspell-1.0.3-mc26.1.2.jar' -o source/buildaspell-shield-fix/libs/buildaspell-1.0.3-mc26.1.2.jar
+          echo 'b480ad587907c01b4f0e5e1f09b39b1c14d575cbd9b5798a9f59bc13cc61ed86  source/buildaspell-shield-fix/libs/buildaspell-1.0.3-mc26.1.2.jar' | sha256sum -c
+      - name: Compile release and preserve clean JAR
+        shell: bash
+        run: |
+          set -euo pipefail
+          gradle -p source/buildaspell-shield-fix clean build --stacktrace --no-daemon --no-configuration-cache 2>&1 | tee build.log
+          cp source/buildaspell-shield-fix/build/libs/bas_shield_fix-1.1.1.jar dist/
+          python3 - <<'PY'
+          import zipfile,hashlib,pathlib
+          p=pathlib.Path('dist/bas_shield_fix-1.1.1.jar')
+          with zipfile.ZipFile(p) as z:
+              assert z.testzip() is None
+              names=z.namelist()
+              assert not any('ShieldRuntimeTest' in n or n.endswith('.js') for n in names)
+              assert 'com/phaedrusxy/basshieldfix/ShieldCapacity.class' in names
+              assert 'com/phaedrusxy/basshieldfix/mixin/ShieldCapacityMixin.class' in names
+              assert 'version="1.1.1"' in z.read('META-INF/neoforge.mods.toml').decode()
+          print('RELEASE_JAR_SHA256',hashlib.sha256(p.read_bytes()).hexdigest())
+          PY
+      - name: Real Minecraft Shield regression WITHOUT KubeJS
+        shell: bash
+        run: |
+          set -euo pipefail
+          ROOT=source/buildaspell-shield-fix
+          mkdir -p "$ROOT/run" "$ROOT/run_highcap/config/buildaspell"
+          for DIR in run run_highcap; do
+            echo 'eula=true' > "$ROOT/$DIR/eula.txt"
+            printf '%s\n' 'online-mode=false' 'server-ip=127.0.0.1' 'level-type=minecraft:flat' 'generate-structures=false' 'view-distance=2' 'simulation-distance=2' 'pause-when-empty-seconds=0' > "$ROOT/$DIR/server.properties"
+          done
+          printf '[effects.shield]\nabsorptionCap = 40.0\n' > "$ROOT/run_highcap/config/buildaspell/effects.toml"
+          for DIR in run run_highcap; do
+            timeout 180s gradle -p "$ROOT" runServer -PshieldRuntimeTest -PshieldTestRunDir="$DIR" --stacktrace --no-daemon --no-configuration-cache > "$DIR-runtime.log" 2>&1 || { cat "$DIR-runtime.log"; exit 1; }
+            cat "$DIR-runtime.log"
+            grep -q 'SHIELD_RUNTIME_TEST_SUCCESS' "$DIR-runtime.log"
+            if grep -Eq 'SHIELD_RUNTIME_TEST_FAILURE|InvalidInjectionException|InjectionError|MixinTransformerError|Critical injection failure' "$DIR-runtime.log"; then exit 1; fi
+          done
+          grep -q 'absorptionCap=20.0' run-runtime.log
+          grep -q 'absorptionCap=40.0' run_highcap-runtime.log
+          python3 - <<'PY'
+          import pathlib,zipfile
+          root=pathlib.Path('source/buildaspell-shield-fix/build/classes/java/main')
+          with zipfile.ZipFile('dist/bas_shield_fix-1.1.1.jar') as z:
+              for n in z.namelist():
+                  if n.endswith('.class'):
+                      assert z.read(n)==(root/n).read_bytes(), 'Tested class differs from release: '+n
+          print('All release class bytecode matches the code used in native runtime tests.')
+          PY
+      - name: Package source and documentation
+        if: success()
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import subprocess,zipfile,pathlib
+          root='source/buildaspell-shield-fix/'
+          paths=subprocess.check_output(['git','ls-files',root],text=True).splitlines()
+          with zipfile.ZipFile('dist/Build_A_Spell_Shield_Fix_1.1.1_Source.zip','w',zipfile.ZIP_DEFLATED) as z:
+              for p in paths:z.write(p,p[len(root):])
+              z.write('.github/workflows/build-bas-shield-fix-v1.1.1.yml','.github/workflows/build-bas-shield-fix-v1.1.1.yml')
+          for name in ['README.md','CHANGELOG-1.1.1.md']:
+              pathlib.Path('dist/'+name).write_bytes(pathlib.Path(root+name).read_bytes())
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: shield-1.1.1-validation
+          path: |
+            build.log
+            *-runtime.log
+          if-no-files-found: warn
+      - uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: bas-shield-fix-1.1.1-standalone
+          path: dist/*
+          if-no-files-found: error

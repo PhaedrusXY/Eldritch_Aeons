@@ -7,9 +7,8 @@
     "EffectExecutorsMixin",
     "SpellProjectileEntityMixin",
     "ModifierApplicabilityMixin",
-    "ShieldCapacityMixin"
+    "ShieldCapacityMixin",
+    "ConjureWallMixin"
   ],
-  "injectors": {
-    "defaultRequire": 1
-  }
+  "injectors": { "defaultRequire": 1 }
 }

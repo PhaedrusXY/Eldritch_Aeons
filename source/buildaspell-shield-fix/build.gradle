@@ -2,18 +2,20 @@ plugins {
     id 'java-library'
     id 'net.neoforged.moddev' version '2.0.148'
 }
-
 version = mod_version
 group = mod_group_id
 repositories { mavenCentral() }
 base { archivesName = mod_id }
 java.toolchain.languageVersion = JavaLanguageVersion.of(25)
 
-// CI-only native integration harness. This source directory is NOT part of a normal build.
+// CI-only integration harnesses and tag fixture. None is packaged in normal builds.
 if (providers.gradleProperty('shieldRuntimeTest').isPresent()) {
     sourceSets.main.java.srcDir 'src/testRuntime/java'
 }
-
+if (providers.gradleProperty('wallRuntimeTest').isPresent()) {
+    sourceSets.main.java.srcDir 'src/testWallRuntime/java'
+    sourceSets.main.resources.srcDir 'src/testWallRuntime/resources'
+}
 neoForge {
     version = project.neo_version
     runs {
@@ -23,9 +25,7 @@ neoForge {
             gameDirectory = project.file(providers.gradleProperty('shieldTestRunDir').getOrElse('run'))
         }
     }
-    mods {
-        "${mod_id}" { sourceSet(sourceSets.main) }
-    }
+    mods { "${mod_id}" { sourceSet(sourceSets.main) } }
 }
 configurations { runtimeClasspath.extendsFrom localRuntime }
 dependencies {

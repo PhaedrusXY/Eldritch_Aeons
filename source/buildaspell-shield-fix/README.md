@@ -1,52 +1,47 @@
-# Build A Spell Shield Fix v1.1.1
+# Build A Spell Fix v1.1.2
 
-Standalone patch (`bas_shield_fix`) for Build A Spell 1.0.3, Minecraft 26.1.2,
-NeoForge 26.1.2.122+, Java 25. Install on client and server alongside the original mod.
+Standalone compatibility mod (`bas_shield_fix`) for Build A Spell 1.0.3 on Minecraft 26.1.2 / NeoForge 26.1.2.122+ / Java 25. Install alongside the original mod, on client and server. No KubeJS dependency.
 
-## Shield is now fully native: no KubeJS dependency
+## Wall geometry
 
-Version 1.1.0 fixed additive Shield stacking but still relied on
-`kubejs/server_scripts/buildaspell_shield_fix.js` to raise players' MAX_ABSORPTION
-base value to at least 20 on login and respawn. Without that script (or another
-source of capacity), a zero maximum could suppress Shield's absorption.
+Only Conjure with the Wall modifier is intercepted. Other effects using Wall are unchanged. A wall is a vertical, block-grid-aligned rectangle perpendicular to the caster's horizontal facing at execution, centered on the original target block.
 
-Version 1.1.1 moves both player-event handlers into Java and ensures capacity
-immediately before each actual Shield recipient receives absorption. This covers
-fresh players and non-player recipients as well as existing saves. Raising capacity
-does not grant hearts: Shield still supplies its configured amount. The original
-non-stacking behavior remains: equal/weaker casts do not add protection, stronger
-casts upgrade it, and existing higher absorption is not lowered.
+- Without Fill: half-width and half-height = `effects.conjure.expandRadiusBase`.
+- With Fill: half-width and half-height = the larger of the base radius and `fillRadiusBase + fillLevel * fillRadiusPerFill`. Fill enlarges both dimensions, not thickness.
+- Half-thickness = number of Increased Area modifiers. Total thickness = `1 + 2 * areaLevel`.
+- The total successfully placed blocks per Conjure Wall execution is limited by `effects.conjure.fillBudget` (4096 default). Repeat/Double/Echo are still separate executions, not one globally shared budget.
+- Positions are visited in square rings centered on the target, with thickness filled locally before the next plane position. A capped thick wall can have an incomplete outer edge. Width/height reach still applies even when budget remains.
+- Solid terrain is not replaced; unloaded chunks, build-height limits and the world border are respected. Wall-block connection states are derived before placement.
 
-The login/respawn floor is 20, exactly like the old script. Cast-time capacity also
-accommodates Build A Spell's configured `effects.shield.absorptionCap` if higher.
-No higher existing base values or attribute modifiers are removed. Negative
-attribute modifiers from other mods are not bypassed. No tick loop is added.
+Examples with expandRadiusBase=1, fillRadiusBase=25, fillRadiusPerFill=5:
 
-## Upgrade from 1.1.0
+| Components | Requested width x height x thickness |
+| --- | --- |
+| Conjure + Wall | 3 x 3 x 1 |
+| Conjure + Wall + Increased Area | 3 x 3 x 3 |
+| Conjure + Wall + Fill | 61 x 61 x 1 (3721 positions) |
+| Conjure + Wall + Fill + Increased Area | 61 x 61 x 3, stopped at the 4096 placement budget |
 
-1. Stop server and client; replace the old patch JAR with `bas_shield_fix-1.1.1.jar` on both.
-2. Remove only `kubejs/server_scripts/buildaspell_shield_fix.js` from the server and pack/client overrides.
-3. Keep Build A Spell 1.0.3 and all other KubeJS scripts/configuration unchanged. Eldritch Aeons still needs KubeJS for unrelated systems.
-4. Fully restart. No world reset, spell migration, or player-data edit is required.
+Config zero is respected: a basic Wall at radius 0 is a single block; adding Area only thickens it. Set the base radius to 1 for a practical basic wall. No existing config is overwritten.
 
-The legacy script is idempotent with the native 20-point floor, so accidentally
-leaving it in place does not add absorption repeatedly; it is simply unnecessary.
+## Materials
 
-## Existing v1.1.0 changes retained
+The original `buildaspell:conjurable` block tag and offhand material selection remain authoritative. Keep the Eldritch Aeons masonry-wall tag addition. There is no broad wall-block whitelist bundled with this release: other packs can extend the tag using datapacks. The one-entry tag in `src/testWallRuntime/resources` is a CI fixture only, not a release resource.
 
-- Break ignores Fill; normal Break behavior and other modifiers remain.
-- Evaporate Water ignores Fill.
-- Break + Chain projectile block hits: up to 8 additional same-type blocks per Chain level, capped at 32, within the configured per-hop search radius (default 4).
-- Conjure + Floor + Fill creates a one-block-thick horizontal platform; existing whitelist, radius and placement budget apply.
-- Conjure + Wall + Fill remains unchanged, including vertical pillars.
-- Fill is marked not useful for Break and Evaporate Water in the spell builder.
+## Shield / previous fixes retained
 
-No changes to Arcane Syntax progression, Dread Incursions, Champion scripts, or modpack recipes.
+Shield capacity is implemented natively on login, respawn and at Shield application. KubeJS is not required. Do not reinstall the obsolete `kubejs/server_scripts/buildaspell_shield_fix.js`. Equal/weaker Shield recasts do not stack; stronger casts upgrade. Higher existing absorption is preserved.
 
-## Build and test
+The prior Break/Fill and Evaporate/Fill restrictions, bounded same-type Break/Chain excavation, and single-layer Floor/Fill platforms remain. Their original Mixin files are unchanged in this version.
 
-Use Java 25 and Gradle 9.2.1. Put official `buildaspell-1.0.3-mc26.1.2.jar` in `libs/`, then run `gradle clean build`.
-CI produces the release JAR first, then separately includes `src/testRuntime/java`
-with `-PshieldRuntimeTest` to exercise real Minecraft entities, NeoForge player
-events, and the original Build A Spell Shield executor. No KubeJS is installed.
-The CI-only harness is not shipped in the release JAR.
+## Installation
+
+Stop client and server. Replace the earlier bas_shield_fix JAR with 1.1.2 on both. Keep Build A Spell 1.0.3 and Eldritch Aeons' other scripts/configs. No world reset is required. Saved Wall spells now use the revised geometry; old Wall/Fill pillars are intentionally replaced by wide vertical walls.
+
+## Building and verification
+
+The GitHub Actions workflow downloads the pinned original mod, builds the release before adding test sources, then launches real headless Minecraft/NeoForge servers to exercise walls and Shield with KubeJS absent. Release class bytes must match tested class bytes. Full modpack, interactive-client and claim-protection compatibility still require separate gameplay testing.
+
+Normal build: Java 25, Gradle 9.2.1, exact Build A Spell 1.0.3 in libs/, then `gradle build`.
+
+This is an unofficial community patch, not affiliated with or endorsed by Build A Spell's original developer.

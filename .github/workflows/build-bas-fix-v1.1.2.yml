@@ -1,0 +1,106 @@
+name: Build A Spell Fix 1.1.2 - true walls
+on:
+  push:
+    branches: [feature/bas-fix-v1.1.2-walls]
+    paths:
+      - 'source/buildaspell-shield-fix/**'
+      - '.github/workflows/build-bas-fix-v1.1.2.yml'
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '9.2.1'
+      - name: Download pinned original Build A Spell
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p source/buildaspell-shield-fix/libs dist
+          curl -fLsS 'https://github.com/CyberDay1/CybersBuildASpell/releases/download/v1.0.3/buildaspell-1.0.3-mc26.1.2.jar' -o source/buildaspell-shield-fix/libs/buildaspell-1.0.3-mc26.1.2.jar
+          echo 'b480ad587907c01b4f0e5e1f09b39b1c14d575cbd9b5798a9f59bc13cc61ed86  source/buildaspell-shield-fix/libs/buildaspell-1.0.3-mc26.1.2.jar' | sha256sum -c
+      - name: Build clean release before test instrumentation
+        shell: bash
+        run: |
+          set -euo pipefail
+          gradle -p source/buildaspell-shield-fix clean build --stacktrace --no-daemon --no-configuration-cache 2>&1 | tee build.log
+          cp source/buildaspell-shield-fix/build/libs/bas_shield_fix-1.1.2.jar dist/
+          python3 - <<'PY'
+          import zipfile,hashlib,pathlib
+          p=pathlib.Path('dist/bas_shield_fix-1.1.2.jar')
+          with zipfile.ZipFile(p) as z:
+              assert z.testzip() is None
+              assert not any('RuntimeTest' in n or n.endswith('.js') or n.startswith('data/') for n in z.namelist())
+              assert 'com/phaedrusxy/basshieldfix/ConjureWalls.class' in z.namelist()
+              assert 'com/phaedrusxy/basshieldfix/mixin/ConjureWallMixin.class' in z.namelist()
+              assert 'version="1.1.2"' in z.read('META-INF/neoforge.mods.toml').decode()
+              assert 'displayName="Build A Spell Fix"' in z.read('META-INF/neoforge.mods.toml').decode()
+          print('RELEASE_SHA256',hashlib.sha256(p.read_bytes()).hexdigest())
+          PY
+      - name: Test actual wall casting and Shield without KubeJS
+        shell: bash
+        run: |
+          set -euo pipefail
+          ROOT=source/buildaspell-shield-fix
+          for DIR in run_wall run_shield run_shield40; do
+            mkdir -p "$ROOT/$DIR/config/buildaspell"
+            echo 'eula=true' > "$ROOT/$DIR/eula.txt"
+            printf '%s\n' 'online-mode=false' 'server-ip=127.0.0.1' 'generate-structures=false' 'view-distance=2' 'simulation-distance=2' 'pause-when-empty-seconds=0' > "$ROOT/$DIR/server.properties"
+          done
+          printf '[effects.shield]\nabsorptionCap = 40.0\n' > "$ROOT/run_shield40/config/buildaspell/effects.toml"
+          for DIR in run_wall run_shield run_shield40; do
+            FLAG=shieldRuntimeTest
+            MARKER=SHIELD_RUNTIME_TEST_SUCCESS
+            if [ "$DIR" = run_wall ]; then FLAG=wallRuntimeTest; MARKER=WALL_RUNTIME_TEST_SUCCESS; fi
+            # Clean output avoids test-only resources leaking between scenarios.
+            timeout 240s gradle -p "$ROOT" clean runServer -P"$FLAG" -PshieldTestRunDir="$DIR" --stacktrace --no-daemon --no-configuration-cache > "$DIR-runtime.log" 2>&1 || { cat "$DIR-runtime.log"; exit 1; }
+            cat "$DIR-runtime.log"
+            grep -q "$MARKER" "$DIR-runtime.log"
+            if grep -Eq 'RUNTIME_TEST_FAILURE|InvalidInjectionException|InjectionError|MixinTransformerError|Critical injection failure' "$DIR-runtime.log"; then exit 1; fi
+            python3 - <<'PY'
+          import zipfile,pathlib
+          root=pathlib.Path('source/buildaspell-shield-fix/build/classes/java/main')
+          with zipfile.ZipFile('dist/bas_shield_fix-1.1.2.jar') as z:
+              for n in z.namelist():
+                  if n.endswith('.class'): assert z.read(n)==(root/n).read_bytes(), 'Bytecode mismatch: '+n
+          print('Release bytecode equals tested bytecode.')
+          PY
+          done
+          grep -q 'absorptionCap=20.0' run_shield-runtime.log
+          grep -q 'absorptionCap=40.0' run_shield40-runtime.log
+      - name: Package source and documentation
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import subprocess,zipfile,pathlib
+          root='source/buildaspell-shield-fix/'
+          paths=subprocess.check_output(['git','ls-files',root],text=True).splitlines()
+          with zipfile.ZipFile('dist/Build_A_Spell_Fix_1.1.2_Source.zip','w',zipfile.ZIP_DEFLATED) as z:
+              for p in paths:z.write(p,p[len(root):])
+              z.write('.github/workflows/build-bas-fix-v1.1.2.yml','.github/workflows/build-bas-fix-v1.1.2.yml')
+          for name in ['README.md','CHANGELOG-1.1.2.md']:
+              pathlib.Path('dist/'+name).write_bytes(pathlib.Path(root+name).read_bytes())
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bas-fix-1.1.2-validation
+          path: |
+            build.log
+            *-runtime.log
+          if-no-files-found: warn
+      - uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: bas-fix-1.1.2-release
+          path: dist/*
+          if-no-files-found: error

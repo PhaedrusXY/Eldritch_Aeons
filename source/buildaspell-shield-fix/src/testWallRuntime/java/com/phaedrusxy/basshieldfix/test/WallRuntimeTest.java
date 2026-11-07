@@ -17,8 +17,6 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.WallBlock;
-import net.minecraft.world.level.block.state.properties.WallSide;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -84,6 +82,11 @@ public final class WallRuntimeTest {
     private static void clear(Set<BlockPos> positions) {
         for (BlockPos pos : positions) level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
     }
+    private static boolean connected(BlockPos pos, String side) {
+        var state = level.getBlockState(pos);
+        var property = state.getBlock().getStateDefinition().getProperty(side);
+        return property != null && !state.getValue(property).toString().equalsIgnoreCase("none");
+    }
     private static Set<BlockPos> checkShape(Spell spell, int radius, int depth, Block material, String description) {
         Direction.Axis axis = caster.getDirection().getAxis();
         cast(CENTER, spell);
@@ -121,6 +124,14 @@ public final class WallRuntimeTest {
     }
     private static void run() throws Exception {
         check(!ModList.get().isLoaded("kubejs"), "KubeJS absent; no script supplies wall geometry");
+        // Clear only this disposable test world's intersecting construction planes.
+        for (int x=-33; x<=33; x++) for (int z=-33; z<=33; z++) {
+            if (Math.abs(x)>5 && Math.abs(z)>5) continue;
+            for (int y=147; y<=213; y++) {
+                BlockPos pos=new BlockPos(x,y,z);
+                if (!level.getBlockState(pos).isAir()) level.setBlockAndUpdate(pos,Blocks.AIR.defaultBlockState());
+            }
+        }
         tune("expandRadiusBase", 1);
         tune("fillRadiusBase", 25);
         tune("fillRadiusPerFill", 5);
@@ -203,15 +214,15 @@ public final class WallRuntimeTest {
         cast(CENTER,spell(true,false,false,0));
         Set<BlockPos> masonry = scan(CENTER,3,2,Direction.Axis.Z,Blocks.COBBLED_DEEPSLATE_WALL);
         check(masonry.equals(expected(CENTER,1,0,Direction.Axis.Z)),"Actual Conjure whitelist selects offhand deepslate wall");
-        check(level.getBlockState(CENTER.west()).getValue(WallBlock.EAST_WALL)!=WallSide.NONE,"Western endpoint connects inward");
-        check(level.getBlockState(CENTER.east()).getValue(WallBlock.WEST_WALL)!=WallSide.NONE,"Eastern endpoint connects inward");
-        check(level.getBlockState(CENTER).getValue(WallBlock.EAST_WALL)!=WallSide.NONE && level.getBlockState(CENTER).getValue(WallBlock.WEST_WALL)!=WallSide.NONE,"Middle wall block connects on both sides");
+        check(connected(CENTER.west(),"east"),"Western endpoint connects inward");
+        check(connected(CENTER.east(),"west"),"Eastern endpoint connects inward");
+        check(connected(CENTER,"east") && connected(CENTER,"west"),"Middle wall block connects on both sides");
         check(caster.getOffhandItem().getCount()==1,"Conjure does not consume offhand template");
         clear(masonry);
         caster.setYRot(90);
         cast(CENTER,spell(true,false,false,0));
         masonry=scan(CENTER,3,2,Direction.Axis.X,Blocks.COBBLED_DEEPSLATE_WALL);
-        check(level.getBlockState(CENTER.north()).getValue(WallBlock.SOUTH_WALL)!=WallSide.NONE && level.getBlockState(CENTER.south()).getValue(WallBlock.NORTH_WALL)!=WallSide.NONE,"North/south wall connections also work");
+        check(connected(CENTER.north(),"south") && connected(CENTER.south(),"north"),"North/south wall connections also work");
         clear(masonry);
         caster.setYRot(0);
         caster.setItemSlot(EquipmentSlot.OFFHAND,new ItemStack(Blocks.GOLD_BLOCK));

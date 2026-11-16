@@ -2,7 +2,7 @@
 
 **Status as reported on 2026-11-15: experimental, initial single-player testing encouraging.** No new CurseForge pack release, stable tag or performance improvement is asserted here.
 
-Source, reference scripts and the original test artifact: [Arcane Syntax](https://github.com/PhaedrusXY/Thaumaturge_integrations).
+Source, reference scripts and the original test artifact: [Arcane Syntax](https://github.com/PhaedrusXY/Arcane_Syntax).
 
 ## What changed
 

@@ -8,7 +8,7 @@ Client/server dependencies, pack-specific KubeJS items, configuration and quest 
 
 ## Experimental Arcane Syntax 0.2.1 update
 
-Current source, installation overlay and test artifact: [Arcane Syntax](https://github.com/PhaedrusXY/Thaumaturge_integrations).
+Current source, installation overlay and test artifact: [Arcane Syntax](https://github.com/PhaedrusXY/Arcane_Syntax).
 
 The incremental overlay assumes the existing 0.2.0 Eldritch Aeons focus migration. It is not a standalone installer for arbitrary or older release profiles.
 

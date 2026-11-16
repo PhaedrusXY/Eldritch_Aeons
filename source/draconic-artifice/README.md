@@ -1,23 +1,22 @@
-# Draconic Artifice 0.1.0
+# Draconic Artifice
 
-Draconic Artifice is an additive KubeJS progression overlay. It does not replace or reconstruct Arcane Syntax.
+Draconic Artifice is the pack's KubeJS progression overlay for Dragonsteel. Its current focus-migration snapshot is maintained alongside Arcane Syntax in [Thaumaturge integrations](https://github.com/PhaedrusXY/Thaumaturge_integrations/tree/main/pack/kubejs).
 
-## What it changes
+## Current development changes
 
-- Adds a **Draconic Artifice** Thaumonomicon category with **Breath-Forged Metallurgy** research.
-- Requires a Runic Wand, Dreadstone, dragon bones, Thaumium, and Thaumaturge infusion knowledge.
-- Replaces all three Dragonforge brick recipes so they use Dreadstone rather than ordinary stone bricks.
-- Replaces all three Dragonforge Aperture (`*_input`) recipes with Thaumaturge infusion recipes.
-- Replaces all three Dragonforge Core recipes with high-cost Thaumaturge infusion recipes.
-- Replaces iron with **Thaumium** as the feedstock for fire, ice, and lightning Dragonsteel.
-- Keeps the original Ice and Fire recipe IDs so JEI and Bestiary references continue to work.
+- Adds a Draconic Artifice Thaumonomicon category with Breath-Forged Metallurgy research.
+- Uses **Greater Focus** as its equipment milestone in the current integration, replacing the historical Runic Wand requirement. Dreadstone, dragon bones, Thaumium and Thaumaturge infusion remain part of the progression.
+- Replaces the three Dragonforge brick recipes with Dreadstone-based masonry.
+- Uses Thaumaturge infusion for the three Apertures and three Cores.
+- Uses **Thaumium**, not iron, as fire/ice/lightning Dragonsteel feedstock, preserving the original Ice and Fire recipe IDs.
+- Polishes the research narration without changing its basic materials or forging role.
 
 ## Why Thaumium instead of Void Metal
 
-Void Metal exists in Thaumaturge, but it belongs to the Eldritch branch. Requiring it would make every form of Dragonsteel post-Eldritch and would make the containment structure depend on a deliberately unstable material. Thaumium is difficult enough to establish a real Thaumaturge gate, magically receptive, and thematically suited to permanent transformation by dragon blood and breath.
-
-Void Metal remains available for a later optional Dragonsteel upgrade or forbidden Dragonforge research.
+The earlier design deliberately avoided making baseline Dragonsteel depend on the Eldritch branch. Thaumium supplies a demanding, magically receptive feedstock without making Void Metal a required containment material. A later optional upgrade was discussed but is not implemented by this update.
 
 ## Validation
 
-After installation, fully restart the server and reopen the world. Check the KubeJS server log, run `/kubethaum check`, confirm the three Apertures and three Cores appear as infusion recipes, and verify Dragonsteel accepts Thaumium rather than iron.
+Fully restart after the matching integration update, inspect the KubeJS logs, verify the Greater Focus research milestone, check the Aperture/Core infusion recipes and test Thaumium feedstock. The maintainer's initial 0.2.1 loading report is not a substitute for these progression checks.
+
+Historical release 0.1.0 used Runic Wand. Read historical changelog entries in that version context rather than reinstalling its old prerequisites.

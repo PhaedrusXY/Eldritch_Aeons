@@ -2,9 +2,9 @@
 
 This page describes the **current experimental focus migration**, Arcane Syntax Unified Casting 0.2.1. Older pack releases used different equipment and research gates; their changelog and archived source are retained separately.
 
-## Arcane Syntax: Unified Casting
+## Arcane Syntax
 
-Arcane Syntax turns Build a Spell's concepts into a researched magical language, then integrates that language with Thaumaturge's native foci, wands, and Vis. Source and reference pack files: [Thaumaturge Integrations](https://github.com/PhaedrusXY/Thaumaturge_integrations).
+Arcane Syntax turns Build a Spell's concepts into a researched magical language, then integrates that language with Thaumaturge's native foci, wands, and Vis. Source and reference pack files: [Arcane Syntax](https://github.com/PhaedrusXY/Thaumaturge_integrations).
 
 ### Learning and equipment
 

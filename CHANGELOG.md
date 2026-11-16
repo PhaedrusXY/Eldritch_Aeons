@@ -31,7 +31,7 @@ Development notes updated November 15, 2026. **0.2.1 is the addon version, not a
 
 ### Repository organization
 
-- Establish [Thaumaturge Integrations](https://github.com/PhaedrusXY/Thaumaturge_integrations) as the home for Unified Casting source, reference pack files, and development documentation.
+- Establish [Arcane Syntax](https://github.com/PhaedrusXY/Thaumaturge_integrations) as the home for Unified Casting source, reference pack files, and development documentation.
 - Keep historical pack snapshots separate from the current development system. See [Unified Casting notes](docs/UNIFIED_CASTING.md) for validation limits and migration instructions.
 
 ## v1.3 — public beta

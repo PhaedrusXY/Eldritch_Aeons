@@ -15,9 +15,9 @@ Major mechanics are connected through custom research, recipes, quests, and cros
 
 ## Current development: unified focus casting
 
-**Arcane Syntax: Unified Casting 0.2.1** targets **Thaumaturge 1.1.0** and **Build a Spell 1.0.3**. Initial in-game testing is underway; this is not yet a new public pack-release announcement.
+**Arcane Syntax 0.2.1** targets **Thaumaturge 1.1.0** and **Build a Spell 1.0.3**. Initial in-game testing is underway; this is not yet a new public pack-release announcement.
 
-The addon source and its reference pack overlay now have a dedicated home: **[Thaumaturge Integrations](https://github.com/PhaedrusXY/Thaumaturge_integrations)**. The mod ID remains `arcane_syntax_unified`.
+The addon source and its reference pack overlay now have a dedicated home: **[Arcane Syntax](https://github.com/PhaedrusXY/Thaumaturge_integrations)**. The mod ID remains `arcane_syntax_unified`.
 
 ### Arcane Syntax
 

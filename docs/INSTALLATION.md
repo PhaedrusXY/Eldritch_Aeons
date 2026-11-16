@@ -6,9 +6,9 @@ Install the approved CurseForge profile and use a dedicated server pack matching
 
 Client/server dependencies, pack-specific KubeJS items, configuration and quest data must match the selected pack version. The development target uses Minecraft 26.1.2, NeoForge 26.1.2.122 and Java 25.
 
-## Experimental Unified Casting 0.2.1 update
+## Experimental Arcane Syntax 0.2.1 update
 
-Current source, installation overlay and test artifact: [Thaumaturge integrations](https://github.com/PhaedrusXY/Thaumaturge_integrations).
+Current source, installation overlay and test artifact: [Arcane Syntax](https://github.com/PhaedrusXY/Thaumaturge_integrations).
 
 The incremental overlay assumes the existing 0.2.0 Eldritch Aeons focus migration. It is not a standalone installer for arbitrary or older release profiles.
 

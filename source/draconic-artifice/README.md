@@ -1,6 +1,6 @@
 # Draconic Artifice
 
-Draconic Artifice is the pack's KubeJS progression overlay for Dragonsteel. Its current focus-migration snapshot is maintained alongside Arcane Syntax in [Thaumaturge integrations](https://github.com/PhaedrusXY/Thaumaturge_integrations/tree/main/pack/kubejs).
+Draconic Artifice is the pack's KubeJS progression overlay for Dragonsteel. Its current focus-migration snapshot is maintained alongside Arcane Syntax in [Arcane Syntax](https://github.com/PhaedrusXY/Thaumaturge_integrations/tree/main/pack/kubejs).
 
 ## Current development changes
 

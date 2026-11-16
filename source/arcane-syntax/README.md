@@ -1,8 +1,8 @@
 # Arcane Syntax
 
-## Current development: Unified Casting 0.2.1
+## Current development: Arcane Syntax 0.2.1
 
-The maintained integration source has moved to **[Thaumaturge integrations](https://github.com/PhaedrusXY/Thaumaturge_integrations)**. It targets Thaumaturge 1.1.0 and Build a Spell 1.0.3 on Minecraft 26.1.2.
+The maintained integration source has moved to **[Arcane Syntax](https://github.com/PhaedrusXY/Thaumaturge_integrations)**. It targets Thaumaturge 1.1.0 and Build a Spell 1.0.3 on Minecraft 26.1.2.
 
 Foundation/Structured/Infused use Lesser/Advanced/Greater Foci. Blank Runes and 75 Inscribed Runes remain, with Cast granted at the first focus milestone. Conjure, Wall and Floor are Foundation; Fill/Increased Area are Structured. Spells use native wands and Vis. The old BaS wand milestones, separate player-casting route and personal-mana HUD are retired.
 

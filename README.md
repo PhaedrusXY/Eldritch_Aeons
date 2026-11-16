@@ -62,7 +62,6 @@ Normal players should install the approved Eldritch Aeons profile from CurseForg
 
 For the 0.2.1 development candidate, keep matching addon/scripts on client and server, fully close Minecraft before replacing JARs or startup scripts, and back up the instance and world. No new world is required for initial compatibility testing; a fresh character/world is useful later for progression testing.
 
-**Wait for Focal Manipulator inscription to finish before removing the focus.** Starting the operation does not mean the spell has been saved. An unfinished focus was the cause of the reported missing spell during initial testing.
 
 See [Known Issues](docs/KNOWN_ISSUES.md) and [Unified Casting migration notes](docs/UNIFIED_CASTING.md), including removal of obsolete Outer Lands template overrides.
 

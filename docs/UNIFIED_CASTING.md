@@ -1,12 +1,14 @@
 # Unified Casting development and migration notes
 
-Updated November 15, 2026. Addon source: [PhaedrusXY/Thaumaturge_integrations](https://github.com/PhaedrusXY/Thaumaturge_integrations).
+Updated November 17, 2026. Addon source: [PhaedrusXY/Arcane_Syntax](https://github.com/PhaedrusXY/Arcane_Syntax).
 
 ## Version boundary
 
-The current experimental addon is **Arcane Syntax: Unified Casting 0.2.1**, targeting Minecraft 26.1.2, NeoForge 26.1.2.122, Thaumaturge 1.1.0, and Build a Spell 1.0.3. The reported test instance uses KubeJS 26.1.2-8.0.8 and KubeThaum 1.3.1. Build A Spell Fix 1.1.2 remains separate.
+The current experimental addon is **Arcane Syntax 1.2**, targeting Minecraft 26.1.2, NeoForge 26.1.2.122, Thaumaturge 1.1.0, and Build a Spell 1.0.3. The reported test instance uses KubeJS 26.1.2-8.0.8 and KubeThaum 1.3.1. Build A Spell Fix 1.1.2 remains separate.
 
 This version number belongs to the addon. It is not an Eldritch Aeons public-release number, and no new CurseForge manifest is declared by these documentation changes.
+
+The current addon release uses **`arcane_syntax_unified-1.2.jar`** with matching internal metadata, following its former CurseForge upload numbered **1.1.0**. Development builds 0.2.1 and 0.2.2 are historical. Version 1.2 preserves their spell logic and corrects the Advanced/Greater Focus research positions; the older in-game testing reports below remain historical, not proof of full 1.2 validation.
 
 ## What changed
 

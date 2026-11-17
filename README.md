@@ -15,9 +15,11 @@ Major mechanics are connected through custom research, recipes, quests, and cros
 
 ## Current development: unified focus casting
 
-**Arcane Syntax 0.2.1** targets **Thaumaturge 1.1.0** and **Build a Spell 1.0.3**. Initial in-game testing is underway; this is not yet a new public pack-release announcement.
+**Arcane Syntax 1.2** targets **Thaumaturge 1.1.0** and **Build a Spell 1.0.3**. Initial in-game testing is underway; this is not yet a new public pack-release announcement.
 
 The addon source and its reference pack overlay now have a dedicated home: **[Arcane Syntax](https://github.com/PhaedrusXY/Arcane_Syntax)**. The mod ID remains `arcane_syntax_unified`.
+
+The current addon artifact is [`arcane_syntax_unified-1.2.jar`](https://github.com/PhaedrusXY/Arcane_Syntax/releases/tag/v1.2). It uses the simplified two-part version numbering; prior 0.2.x GitHub candidates are retained as development history.
 
 ### Arcane Syntax
 
@@ -60,7 +62,7 @@ The bundled **Tom's Thaumometer** compatibility addon (`thaumic_storage_scanning
 
 Normal players should install the approved Eldritch Aeons profile from CurseForge and use a matching server pack. Do not mix a historical manifest with a current experimental overlay.
 
-For the 0.2.1 development candidate, keep matching addon/scripts on client and server, fully close Minecraft before replacing JARs or startup scripts, and back up the instance and world. No new world is required for initial compatibility testing; a fresh character/world is useful later for progression testing.
+For the Arcane Syntax 1.2 release, keep matching addon/scripts on client and server, fully close Minecraft before replacing JARs or startup scripts, and back up the instance and world. No new world is required for initial compatibility testing; a fresh character/world is useful later for progression testing.
 
 
 See [Known Issues](docs/KNOWN_ISSUES.md) and [Unified Casting migration notes](docs/UNIFIED_CASTING.md), including removal of obsolete Outer Lands template overrides.

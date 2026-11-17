@@ -1,6 +1,6 @@
 # Custom Systems
 
-This page describes the **current experimental focus migration**, Arcane Syntax 0.2.1. Older pack releases used different equipment and research gates; their changelog and archived source are retained separately.
+This page describes the **current experimental focus migration**, Arcane Syntax 1.2. Older pack releases used different equipment and research gates; their changelog and archived source are retained separately.
 
 ## Arcane Syntax
 
